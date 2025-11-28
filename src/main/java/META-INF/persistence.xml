@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence 
+                                 https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <persistence-unit name="RendezVousPU" transaction-type="JTA">
+        <jta-data-source>java:/jdbc/rendezvousDS</jta-data-source>
+
+
+        <class>com.project.entities.Patient</class>
+        <class>com.project.entities.Dentiste</class>
+        <class>com.project.entities.ServiceMedical</class>
+        <class>com.project.entities.Rendezvous</class>
+        <class>com.project.entities.ActeMedical</class>
+
+        <properties>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
