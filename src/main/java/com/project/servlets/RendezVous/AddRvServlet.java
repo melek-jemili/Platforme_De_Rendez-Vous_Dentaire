@@ -1,9 +1,9 @@
 package com.project.servlets.RendezVous;
 import java.io.IOException;
 
-import com.project.ejb.interfaces.implementation.DentisteService;
-import com.project.ejb.interfaces.implementation.PatientService;
-import com.project.ejb.interfaces.implementation.RendezvousService;
+import com.project.ejb.interfaces.IDentisteLocal;
+import com.project.ejb.interfaces.IPatientLocal;
+import com.project.ejb.interfaces.IRendezvousLocal;
 import com.project.entities.Rendezvous;
 
 import jakarta.ejb.EJB;
@@ -21,13 +21,13 @@ public class AddRvServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-    private RendezvousService rvService;
+    private IRendezvousLocal rvService;
 
     @EJB
-    private PatientService patientService;
+    private IPatientLocal patientService;
 
     @EJB
-    private DentisteService dentisteService;
+    private IDentisteLocal dentisteService;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)

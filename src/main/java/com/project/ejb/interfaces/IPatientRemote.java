@@ -12,5 +12,6 @@ public interface IPatientRemote {
     void updatePatient(Patient p);
     void deletePatient(int id);
     Patient getPatient(int id);
+    Patient authenticate(String email, String password);
     List<Patient> getAllPatients();
 }

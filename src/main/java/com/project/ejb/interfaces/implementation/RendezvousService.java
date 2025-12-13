@@ -40,6 +40,6 @@ public class RendezvousService implements IRendezvousLocal, IRendezvousRemote {
 
     @Override
     public List<Rendezvous> getAllRendezvous() {
-        return em.createQuery("SELECT d FROM Dentiste d", Rendezvous.class).getResultList();
+        return em.createQuery("SELECT r FROM RendezVous r", Rendezvous.class).getResultList();
     }
 }

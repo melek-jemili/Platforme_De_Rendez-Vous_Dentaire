@@ -4,7 +4,7 @@ import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import com.project.ejb.interfaces.implementation.*;
+import com.project.ejb.interfaces.IDentisteLocal;
 
 
 @WebServlet("/dentistes")
@@ -15,13 +15,13 @@ public class ListeDentisteServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	@EJB
-    private DentisteService dentisteService;
+    private IDentisteLocal dentisteService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         req.setAttribute("dentistes", dentisteService.getAllDentistes());
-        req.getRequestDispatcher("/pages/dentistes/listDentistes.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/dentistes/list.jsp").forward(req, resp);
     }
 }

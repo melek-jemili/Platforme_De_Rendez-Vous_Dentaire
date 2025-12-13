@@ -11,5 +11,6 @@ public interface IDentisteLocal {
     void updateDentiste(Dentiste d);
     void deleteDentiste(int id);
     Dentiste getDentiste(int id);
+    Dentiste authenticate(String email, String password);
     List<Dentiste> getAllDentistes();
 }

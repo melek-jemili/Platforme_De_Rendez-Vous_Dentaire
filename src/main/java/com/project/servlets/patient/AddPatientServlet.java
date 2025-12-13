@@ -6,7 +6,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import com.project.ejb.interfaces.implementation.PatientService;
+import com.project.ejb.interfaces.IPatientLocal;
 import com.project.entities.Patient;
 
 @WebServlet("/patients/add")
@@ -17,7 +17,7 @@ public class AddPatientServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	@EJB
-    private PatientService patientService;
+    private IPatientLocal patientService;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)

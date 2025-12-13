@@ -5,10 +5,11 @@ import java.util.List;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 import com.project.entities.Dentiste;
-import com.project.ejb.interfaces.*;
-
+import com.project.ejb.interfaces.IDentisteLocal;
+import com.project.ejb.interfaces.IDentisteRemote;
 
 
 
@@ -42,5 +43,20 @@ public class DentisteService implements IDentisteLocal, IDentisteRemote {
     @Override
     public List<Dentiste> getAllDentistes() {
         return em.createQuery("SELECT d FROM Dentiste d", Dentiste.class).getResultList();
+    }
+    
+    @Override
+    public Dentiste authenticate(String email, String password) {
+        try {
+            TypedQuery<Dentiste> query = em.createQuery(
+                "SELECT d FROM Dentiste d WHERE d.emailD = :email AND d.mdpD = :password", 
+                Dentiste.class
+            );
+            query.setParameter("email", email);
+            query.setParameter("password", password);
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

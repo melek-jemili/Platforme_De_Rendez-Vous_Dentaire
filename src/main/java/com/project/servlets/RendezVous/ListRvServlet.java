@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import com.project.ejb.interfaces.implementation.*;
+import com.project.ejb.interfaces.IRendezvousLocal;
 
 @WebServlet("/rendezvous")
 public class ListRvServlet extends HttpServlet {
@@ -17,7 +17,7 @@ public class ListRvServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	@EJB
-    private RendezvousService rvService;
+    private IRendezvousLocal rvService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

@@ -1,7 +1,7 @@
 package com.project.servlets.RendezVous;
 import java.io.IOException;
 
-import com.project.ejb.interfaces.implementation.RendezvousService;
+import com.project.ejb.interfaces.IRendezvousLocal;
 import com.project.entities.Rendezvous;
 
 import jakarta.ejb.EJB;
@@ -18,7 +18,7 @@ public class UpdateRvServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	@EJB
-    private RendezvousService rvService;
+    private IRendezvousLocal rvService;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)

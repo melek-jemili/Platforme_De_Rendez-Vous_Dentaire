@@ -2,23 +2,28 @@ package com.project.servlets.dentiste;
 
 import java.io.IOException;
 import jakarta.ejb.EJB;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import com.project.ejb.interfaces.implementation.*;
-
+import com.project.ejb.interfaces.IDentisteLocal;
 import com.project.entities.Dentiste;
-
 
 @WebServlet("/dentistes/add")
 public class AddDentisteServlet extends HttpServlet {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@EJB
-    private DentisteService dentisteService;
+    private static final long serialVersionUID = 1L;
+    
+    @EJB
+    private IDentisteLocal dentisteService;
+
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        
+        req.getRequestDispatcher("/WEB-INF/views/dentistes/add.jsp").forward(req, resp);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -34,5 +39,3 @@ public class AddDentisteServlet extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/dentistes");
     }
 }
-
-

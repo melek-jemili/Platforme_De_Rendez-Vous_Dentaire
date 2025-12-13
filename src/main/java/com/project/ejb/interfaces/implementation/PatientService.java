@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 import com.project.entities.Patient;
 import com.project.ejb.interfaces.*;
@@ -42,5 +43,20 @@ public class PatientService implements IPatientLocal, IPatientRemote {
     @Override
     public List<Patient> getAllPatients() {
         return em.createQuery("SELECT p FROM Patient p", Patient.class).getResultList();
+    }
+    
+    @Override
+    public Patient authenticate(String email, String password) {
+        try {
+            TypedQuery<Patient> query = em.createQuery(
+                "SELECT p FROM Patient p WHERE p.emailP = :email AND p.mdpP = :password", 
+                Patient.class
+            );
+            query.setParameter("email", email);
+            query.setParameter("password", password);
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
