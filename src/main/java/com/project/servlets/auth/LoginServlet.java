@@ -1,11 +1,9 @@
 package com.project.servlets.auth;
-
 import java.io.IOException;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-
 import com.project.ejb.interfaces.IPatientLocal;
 import com.project.ejb.interfaces.IDentisteLocal;
 import com.project.ejb.interfaces.IAideSoignantLocal;
@@ -15,7 +13,6 @@ import com.project.entities.AideSoignant;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
     private static final long serialVersionUID = 1L;
     
     @EJB
@@ -26,11 +23,10 @@ public class LoginServlet extends HttpServlet {
     
     @EJB
     private IAideSoignantLocal aideSoignantService;
-
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String userType = req.getParameter("userType");
@@ -41,7 +37,7 @@ public class LoginServlet extends HttpServlet {
             if ("patient".equals(userType)) {
                 Patient patient = patientService.authenticate(email, password);
                 if (patient != null) {
-                    session.setAttribute("user", patient);
+                    session.setAttribute("patient", patient); // ← CHANGÉ ICI
                     session.setAttribute("userType", "patient");
                     resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
                 } else {
@@ -51,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             } else if ("dentiste".equals(userType)) {
                 Dentiste dentiste = dentisteService.authenticate(email, password);
                 if (dentiste != null) {
-                    session.setAttribute("user", dentiste);
+                    session.setAttribute("dentiste", dentiste); // ← CHANGÉ ICI
                     session.setAttribute("userType", "dentiste");
                     resp.sendRedirect(req.getContextPath() + "/dentiste/dashboard");
                 } else {
@@ -61,7 +57,7 @@ public class LoginServlet extends HttpServlet {
             } else if ("aidesoignant".equals(userType)) {
                 AideSoignant as = aideSoignantService.authenticate(email, password);
                 if (as != null) {
-                    session.setAttribute("user", as);
+                    session.setAttribute("aidesoignant", as); // ← CHANGÉ ICI
                     session.setAttribute("userType", "aidesoignant");
                     resp.sendRedirect(req.getContextPath() + "/aidesoignant/dashboard");
                 } else {

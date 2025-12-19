@@ -29,6 +29,7 @@ public class AddAideSoignantServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+    	req.setCharacterEncoding("UTF-8");
 
         AideSoignant as = new AideSoignant();
         String idASStr = req.getParameter("idAS");

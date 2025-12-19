@@ -6,6 +6,7 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import com.project.entities.Patient;
 import com.project.entities.Rendezvous;
 import com.project.ejb.interfaces.*;
 
@@ -41,5 +42,15 @@ public class RendezvousService implements IRendezvousLocal, IRendezvousRemote {
     @Override
     public List<Rendezvous> getAllRendezvous() {
         return em.createQuery("SELECT r FROM RendezVous r", Rendezvous.class).getResultList();
+    }
+    @Override
+    public List<Rendezvous> findByPatient(Patient patient) {
+
+        return em.createQuery(
+            "SELECT r FROM Rendezvous r WHERE r.patient = :patient",
+            Rendezvous.class
+        )
+        .setParameter("patient", patient)
+        .getResultList();
     }
 }

@@ -4,6 +4,7 @@ import jakarta.ejb.Remote;
 
 import java.util.List;
 import com.project.entities.Rendezvous;
+import com.project.entities.*;
 
 @Remote
 public interface IRendezvousRemote {
@@ -12,4 +13,6 @@ public interface IRendezvousRemote {
     void deleteRendezvous(int id);
     Rendezvous getRendezvous(int id);
     List<Rendezvous> getAllRendezvous();
+    List<Rendezvous> findByPatient(Patient patient);
+    
 }

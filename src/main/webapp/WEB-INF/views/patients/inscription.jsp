@@ -90,6 +90,15 @@
                         <input type="text" id="prenomP" name="prenomP" placeholder="Votre prénom" required>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="idP">
+                            <i class="fas fa-user"></i>
+                           CIN <span class="required">*</span>
+                        </label>
+                            <input type="number" id="idP" name="idP" placeholder="Min. 8 caractères" required minlength="8">
+                        </div>
+                    </div>
 
                 <div class="form-group">
                     <label for="emailP">
@@ -192,52 +201,52 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="nomAS">
+                        <label for="nom">
                             <i class="fas fa-user"></i>
                             Nom <span class="required">*</span>
                         </label>
-                        <input type="text" id="nomAS" name="nom" placeholder="Votre nom" required>
+                        <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="prenomAS">
+                        <label for="prénom">
                             <i class="fas fa-user"></i>
                             Prénom <span class="required">*</span>
                         </label>
-                        <input type="text" id="prenomAS" name="prénom" placeholder="Votre prénom" required>
+                        <input type="text" id="prénom" name="prénom" placeholder="Votre prénom" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="emailAS">
+                    <label for="emailP">
                         <i class="fas fa-envelope"></i>
                         Email professionnel <span class="required">*</span>
                     </label>
-                    <input type="email" id="emailAS" name="emailP" placeholder="votre.email@clinique.com" required>
+                    <input type="email" id="emailP" name="emailP" placeholder="votre.email@clinique.com" required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="mdpAS">
+                        <label for="mdpP">
                             <i class="fas fa-lock"></i>
                             Mot de passe <span class="required">*</span>
                         </label>
                         <div class="password-wrapper">
-                            <input type="password" id="mdpAS" name="mdpP" placeholder="Min. 8 caractères" required minlength="8">
-                            <button type="button" class="toggle-password" data-target="mdpAS">
+                            <input type="password" id="mdpP" name="mdpP" placeholder="Min. 8 caractères" required minlength="8">
+                            <button type="button" class="toggle-password" data-target="mdpP">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="mdpAS-confirm">
+                        <label for="mdpP-confirm">
                             <i class="fas fa-lock"></i>
                             Confirmer mot de passe <span class="required">*</span>
                         </label>
                         <div class="password-wrapper">
-                            <input type="password" id="mdpAS-confirm" name="mdpP-confirm" placeholder="Répéter le mot de passe" required>
-                            <button type="button" class="toggle-password" data-target="mdpAS-confirm">
+                            <input type="password" id="mdpP-confirm" name="mdpP-confirm" placeholder="Répéter le mot de passe" required>
+                            <button type="button" class="toggle-password" data-target="mdpP-confirm">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -250,7 +259,7 @@
                             <i class="fas fa-phone"></i>
                             Téléphone <span class="required">*</span>
                         </label>
-                        <input type="tel" id="telephoneAS" name="telephone" placeholder="20123456" required>
+                        <input type="tel" id="telephone" name="telephone" placeholder="20123456" required>
                     </div>
 
                     <div class="form-group">

@@ -132,7 +132,7 @@
 
                     <div class="form-footer">
                         <p>Vous n'avez pas de compte ?</p>
-                        <a href="${pageContext.request.contextPath}/patients/inscription" class="link-register">
+                        <a href="${pageContext.request.contextPath}/inscription" class="link-register">
                             Créer un compte patient
                         </a>
                     </div>
