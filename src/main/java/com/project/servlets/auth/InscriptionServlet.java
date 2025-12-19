@@ -77,7 +77,7 @@ public class InscriptionServlet extends HttpServlet {
                 // Création de l'aide-soignant
                 AideSoignant as = new AideSoignant();
                 as.setNom(req.getParameter("nom"));
-                as.setPrénom(req.getParameter("prénom"));
+                as.setPrenom(req.getParameter("prénom"));
                 as.setEmailP(req.getParameter("emailP"));
                 as.setMdpP(req.getParameter("mdpP"));
                 as.setSexeP(req.getParameter("sexeP"));

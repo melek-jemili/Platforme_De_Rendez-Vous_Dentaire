@@ -133,7 +133,7 @@
                     <div class="form-footer">
                         <p>Vous n'avez pas de compte ?</p>
                         <a href="${pageContext.request.contextPath}/inscription" class="link-register">
-                            Créer un compte patient
+                            Créer un compte
                         </a>
                     </div>
                 </form>
@@ -246,7 +246,12 @@
                         <i class="fas fa-sign-in-alt"></i>
                         Se connecter
                     </button>
-
+					                    <div class="form-footer">
+                        <p>Vous n'avez pas de compte ?</p>
+                        <a href="${pageContext.request.contextPath}/inscription" class="link-register">
+                            Créer un compte
+                        </a>
+                    </div>
                     <div class="form-footer">
                         <p>Accès réservé au personnel médical</p>
                     </div>

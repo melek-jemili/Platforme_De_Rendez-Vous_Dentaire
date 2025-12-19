@@ -34,7 +34,7 @@ public class AideSoignant implements Serializable {
 	private String nom;
 	
 	@Column(name="prénom", length=50 , nullable = false)
-	private String prénom;
+	private String prenom;
 	
 	@Column(name="telephone", length=100, nullable=false)
 	private int telephone;
@@ -74,7 +74,7 @@ public class AideSoignant implements Serializable {
 		super();
 		this.idAS = idAS;
 		this.nom = nom;
-		this.prénom = prénom;
+		this.prenom = prénom;
 		this.telephone = telephone;
 		this.adresse = adresse;
 		this.emailP = emailP;
@@ -111,14 +111,14 @@ public class AideSoignant implements Serializable {
 
 
 
-	public String getPrénom() {
-		return prénom;
+	public String getPrenom() {
+		return prenom;
 	}
 
 
 
-	public void setPrénom(String prénom) {
-		this.prénom = prénom;
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
 	}
 
 

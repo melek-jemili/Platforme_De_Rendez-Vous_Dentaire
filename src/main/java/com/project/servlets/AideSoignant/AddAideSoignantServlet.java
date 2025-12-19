@@ -37,7 +37,7 @@ public class AddAideSoignantServlet extends HttpServlet {
             as.setIdAS(Integer.parseInt(idASStr));
         }
         as.setNom(req.getParameter("nom"));
-        as.setPrénom(req.getParameter("prénom"));
+        as.setPrenom(req.getParameter("prénom"));
         String telephoneStr = req.getParameter("telephone");
         if (telephoneStr != null && !telephoneStr.isEmpty()) {
             as.setTelephone(Integer.parseInt(telephoneStr));

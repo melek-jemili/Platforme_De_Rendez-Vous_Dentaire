@@ -48,16 +48,6 @@
             <!-- Choix du type de compte -->
             <div class="account-type-section">
                 <h3><i class="fas fa-users"></i> Je suis :</h3>
-                <div class="account-type-cards">
-                    <label class="type-card" for="type-patient">
-                        <input type="radio" name="accountType" id="type-patient" value="patient" checked>
-                        <div class="card-content">
-                            <i class="fas fa-user"></i>
-                            <h4>Patient</h4>
-                            <p>Je souhaite prendre rendez-vous</p>
-                        </div>
-                    </label>
-
                     <label class="type-card" for="type-aidesoignant">
                         <input type="radio" name="accountType" id="type-aidesoignant" value="aidesoignant">
                         <div class="card-content">
@@ -69,131 +59,6 @@
                 </div>
             </div>
 
-            <!-- Formulaire Patient -->
-            <form id="form-patient" class="inscription-form active" action="${pageContext.request.contextPath}/inscription" method="post">
-                <input type="hidden" name="userType" value="patient">
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="nomP">
-                            <i class="fas fa-user"></i>
-                            Nom <span class="required">*</span>
-                        </label>
-                        <input type="text" id="nomP" name="nomP" placeholder="Votre nom" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prenomP">
-                            <i class="fas fa-user"></i>
-                            Prénom <span class="required">*</span>
-                        </label>
-                        <input type="text" id="prenomP" name="prenomP" placeholder="Votre prénom" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="idP">
-                            <i class="fas fa-user"></i>
-                           CIN <span class="required">*</span>
-                        </label>
-                            <input type="number" id="idP" name="idP" placeholder="Min. 8 caractères" required minlength="8">
-                        </div>
-                    </div>
-
-                <div class="form-group">
-                    <label for="emailP">
-                        <i class="fas fa-envelope"></i>
-                        Email <span class="required">*</span>
-                    </label>
-                    <input type="email" id="emailP" name="emailP" placeholder="votre.email@exemple.com" required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="mdpP">
-                            <i class="fas fa-lock"></i>
-                            Mot de passe <span class="required">*</span>
-                        </label>
-                        <div class="password-wrapper">
-                            <input type="password" id="mdpP" name="mdpP" placeholder="Min. 8 caractères" required minlength="8">
-                            <button type="button" class="toggle-password" data-target="mdpP">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="mdpP-confirm">
-                            <i class="fas fa-lock"></i>
-                            Confirmer mot de passe <span class="required">*</span>
-                        </label>
-                        <div class="password-wrapper">
-                            <input type="password" id="mdpP-confirm" name="mdpP-confirm" placeholder="Répéter le mot de passe" required>
-                            <button type="button" class="toggle-password" data-target="mdpP-confirm">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="dateNP">
-                            <i class="fas fa-calendar"></i>
-                            Date de naissance <span class="required">*</span>
-                        </label>
-                        <input type="date" id="dateNP" name="dateNP" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="sexeP">
-                            <i class="fas fa-venus-mars"></i>
-                            Sexe <span class="required">*</span>
-                        </label>
-                        <select id="sexeP" name="sexeP" required>
-                            <option value="">-- Sélectionner --</option>
-                            <option value="M">Masculin</option>
-                            <option value="F">Féminin</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="groupeSanguinP">
-                            <i class="fas fa-tint"></i>
-                            Groupe sanguin
-                        </label>
-                        <select id="groupeSanguinP" name="groupeSanguinP">
-                            <option value="">-- Sélectionner --</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="O">O</option>
-                            <option value="AB">AB</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="recouvrementP">
-                            <i class="fas fa-shield-alt"></i>
-                            Recouvrement social
-                        </label>
-                        <input type="text" id="recouvrementP" name="recouvrementP" placeholder="Ex: CNAM">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="checkbox-wrapper">
-                        <input type="checkbox" name="acceptTerms" required>
-                        <span>J'accepte les <a href="#" class="link">conditions d'utilisation</a> et la <a href="#" class="link">politique de confidentialité</a></span>
-                    </label>
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-user-plus"></i>
-                    Créer mon compte patient
-                </button>
-            </form>
 
             <!-- Formulaire Aide-soignant -->
             <form id="form-aidesoignant" class="inscription-form" action="${pageContext.request.contextPath}/inscription" method="post">
@@ -213,7 +78,7 @@
                             <i class="fas fa-user"></i>
                             Prénom <span class="required">*</span>
                         </label>
-                        <input type="text" id="prénom" name="prenom" placeholder="Votre prénom" required>
+                        <input type="text" id="prénom" name="prénom" placeholder="Votre prénom" required>
                     </div>
                 </div>
 
