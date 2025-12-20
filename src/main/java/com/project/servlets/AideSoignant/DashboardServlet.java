@@ -1,87 +1,103 @@
 package com.project.servlets.AideSoignant;
-
 import java.io.IOException;
 import java.util.List;
+
+import com.project.entities.*;
 
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import com.project.ejb.interfaces.IRendezvousLocal;
-import com.project.ejb.interfaces.IPublicationLocal;
-import com.project.ejb.interfaces.IServiceMedicalLocal;
-import com.project.entities.AideSoignant;
-import com.project.entities.Rendezvous;
-import com.project.entities.Publication;
-import com.project.entities.ServiceMedical;
 
-@WebServlet("/aidesoignants/dashboard")
+@WebServlet("/aidesoignant/dashboard")
 public class DashboardServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-
+    
     @EJB
-    private IRendezvousLocal rendezvousService;
-
-    @EJB
-    private IPublicationLocal publicationService;
-
-    @EJB
-    private IServiceMedicalLocal serviceMedicalService;
-
+    private IRendezvousLocal rvservice;
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Vérifier la session
+        System.out.println("\n========================================");
+        System.out.println("=== DASHBOARD AIDE-SOIGNANT - DEBUG ===");
+        System.out.println("========================================");
+        
+        // Vérifier les cookies reçus
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            System.out.println("Cookies reçus:");
+            for (Cookie cookie : cookies) {
+                System.out.println("  - " + cookie.getName() + " = " + cookie.getValue());
+            }
+        } else {
+            System.out.println("❌ AUCUN COOKIE REÇU !");
+        }
+        
+        // Tenter de récupérer la session
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
+        
+        System.out.println("\nSession:");
+        if (session == null) {
+            System.out.println("❌ Session NULL");
+            System.out.println("Redirection vers login...");
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
-
-        AideSoignant aideSoignant = (AideSoignant) session.getAttribute("user");
-
-        try {
-            // Récupérer tous les rendez-vous
-            List<Rendezvous> rendezvousList = rendezvousService.getAllRendezvous();
-            req.setAttribute("rendezvousList", rendezvousList);
-
-            // Statistiques
-            int totalRdv = rendezvousList != null ? rendezvousList.size() : 0;
-            int rdvEnAttente = 0;
-            if (rendezvousList != null) {
-                for (Rendezvous rdv : rendezvousList) {
-                    if ("En attente".equals(rdv.getStatutRv())) {
-                        rdvEnAttente++;
-                    }
-                }
-            }
-
-            req.setAttribute("totalRdv", totalRdv);
-            req.setAttribute("rdvEnAttente", rdvEnAttente);
-
-            // Récupérer les publications
-            List<Publication> publicationsList = publicationService.getAllPublication();
-            req.setAttribute("publicationsList", publicationsList);
-            req.setAttribute("totalPublications", publicationsList != null ? publicationsList.size() : 0);
-
-            // Récupérer les services médicaux
-            List<ServiceMedical> servicesList = serviceMedicalService.getAllServiceMedical();
-            req.setAttribute("servicesList", servicesList);
-            req.setAttribute("totalServices", servicesList != null ? servicesList.size() : 0);
-
-            // ✅ CORRECTION : Forward vers la JSP (PAS sendRedirect)
-            req.getRequestDispatcher("/WEB-INF/views/aidesoignants/dashboard.jsp")
-               .forward(req, resp);
-               
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.setAttribute("errorMessage", "Erreur lors du chargement du dashboard : " + e.getMessage());
-            
-            // ✅ En cas d'erreur, rediriger vers la page de login
-            resp.sendRedirect(req.getContextPath() + "/");
+        
+        System.out.println("✅ Session existe");
+        System.out.println("  - Session ID: " + session.getId());
+        System.out.println("  - Creation time: " + new java.util.Date(session.getCreationTime()));
+        System.out.println("  - Last accessed: " + new java.util.Date(session.getLastAccessedTime()));
+        System.out.println("  - Max inactive interval: " + session.getMaxInactiveInterval() + " secondes");
+        
+        // Lister TOUS les attributs de la session
+        System.out.println("\nAttributs dans la session:");
+        java.util.Enumeration<String> attributeNames = session.getAttributeNames();
+        boolean hasAttributes = false;
+        while (attributeNames.hasMoreElements()) {
+            hasAttributes = true;
+            String attrName = attributeNames.nextElement();
+            Object attrValue = session.getAttribute(attrName);
+            System.out.println("  - " + attrName + " = " + attrValue);
         }
+        if (!hasAttributes) {
+            System.out.println("  ⚠️ AUCUN ATTRIBUT DANS LA SESSION !");
+        }
+        
+        // Vérifier l'attribut aide-soignant
+        AideSoignant aidesoignant = (AideSoignant) session.getAttribute("aidesoignant");
+        
+        System.out.println("\nAide-Soignant:");
+        if (aidesoignant == null) {
+            System.out.println("❌ aidesoignant NULL");
+            System.out.println("Redirection vers login...");
+            resp.sendRedirect(req.getContextPath() + "/");
+            return;
+        }
+        
+        System.out.println("✅ AideSoignant trouvé");
+        System.out.println("  - ID: " + aidesoignant.getIdAS());
+        System.out.println("  - Nom: " + aidesoignant.getNom());
+        System.out.println("  - Prénom: " + aidesoignant.getPrenom());
+
+        // Charger les rendez-vous
+        System.out.println("\nChargement des rendez-vous...");
+        List<Rendezvous> rdvs = rvservice.getAllRendezvous();
+        System.out.println("✅ " + (rdvs != null ? rdvs.size() : 0) + " rendez-vous trouvés");
+
+        req.setAttribute("rendezvous", rdvs);
+        
+        System.out.println("\nForward vers JSP...");
+        System.out.println("========================================\n");
+        
+        req.getRequestDispatcher("/WEB-INF/views/aidesoignants/dashboard.jsp").forward(req, resp);
     }
 }

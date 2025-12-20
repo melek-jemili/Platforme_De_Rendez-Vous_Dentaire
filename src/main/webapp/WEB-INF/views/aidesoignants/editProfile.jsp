@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier mon Profil - Dr. ${dentiste.nomD}</title>
+    <title>Modifier mon Profil - ${aidesoignant.nom}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * {
@@ -135,6 +135,7 @@
         .form-group input[type="email"],
         .form-group input[type="tel"],
         .form-group input[type="password"],
+        .form-group input[type="date"],
         .form-group select {
             width: 100%;
             padding: 12px 15px;
@@ -325,11 +326,11 @@
     <div class="container">
         <!-- Breadcrumb -->
         <div class="breadcrumb">
-            <a href="${pageContext.request.contextPath}/dentiste/dashboard">
+            <a href="${pageContext.request.contextPath}/aidesoignant/dashboard">
                 <i class="fas fa-home"></i> Dashboard
             </a>
             <i class="fas fa-chevron-right"></i>
-            <a href="${pageContext.request.contextPath}/dentiste/profile">
+            <a href="${pageContext.request.contextPath}/aidesoignants/profile">
                 Mon Profil
             </a>
             <i class="fas fa-chevron-right"></i>
@@ -353,7 +354,7 @@
             </div>
 
             <div class="form-content">
-                <form action="${pageContext.request.contextPath}/dentiste/update" method="post" enctype="multipart/form-data">
+                <form action="${pageContext.request.contextPath}/aidesoignants/update" method="post" enctype="multipart/form-data">
                     
                     <!-- Photo de Profil -->
                     <div class="form-group">
@@ -364,8 +365,8 @@
                         <div class="photo-upload">
                             <div class="current-photo">
                                 <c:choose>
-                                    <c:when test="${not empty dentiste.photoD}">
-                                        <img src="${pageContext.request.contextPath}/${dentiste.photoD}" alt="Photo actuelle" id="photoPreview">
+                                    <c:when test="${not empty aidesoignant.photoP}">
+                                        <img src="${pageContext.request.contextPath}/${aidesoignant.photoP}" alt="Photo actuelle" id="photoPreview">
                                     </c:when>
                                     <c:otherwise>
                                         <i class="fas fa-user-md" id="photoPreview"></i>
@@ -373,11 +374,11 @@
                                 </c:choose>
                             </div>
                             <div class="file-input-wrapper">
-                                <label for="photoD" class="file-input-label">
+                                <label for="photoP" class="file-input-label">
                                     <i class="fas fa-upload"></i>
                                     Choisir une nouvelle photo
                                 </label>
-                                <input type="file" id="photoD" name="photoD" accept="image/*">
+                                <input type="file" id="photoP" name="photoP" accept="image/*">
                                 <div class="file-name" id="fileName">Aucun fichier sélectionné</div>
                             </div>
                         </div>
@@ -396,7 +397,7 @@
                                 Nom
                                 <span class="required">*</span>
                             </label>
-                            <input type="text" name="nomD" value="${dentiste.nomD}" required>
+                            <input type="text" name="nom" value="${aidesoignant.nom}" required>
                         </div>
 
                         <div class="form-group">
@@ -405,7 +406,7 @@
                                 Prénom
                                 <span class="required">*</span>
                             </label>
-                            <input type="text" name="prenomD" value="${dentiste.prenomD}" required>
+                            <input type="text" name="prenom" value="${aidesoignant.prenom}" required>
                         </div>
                     </div>
 
@@ -416,20 +417,20 @@
                                 Sexe
                                 <span class="required">*</span>
                             </label>
-                            <select name="sexeD" required>
+                            <select name="sexeP" required>
                                 <option value="">-- Sélectionner --</option>
-                                <option value="M" ${dentiste.sexeD == 'M' ? 'selected' : ''}>Masculin</option>
-                                <option value="F" ${dentiste.sexeD == 'F' ? 'selected' : ''}>Féminin</option>
+                                <option value="M" ${aidesoignant.sexeP == 'M' ? 'selected' : ''}>Masculin</option>
+                                <option value="F" ${aidesoignant.sexeP == 'F' ? 'selected' : ''}>Féminin</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>
-                                <i class="fas fa-stethoscope"></i>
-                                Spécialité
+                                <i class="fas fa-calendar"></i>
+                                Date de naissance
+                                <span class="required">*</span>
                             </label>
-                            <input type="text" name="specialiteD" value="${dentiste.specialiteD}" 
-                                   placeholder="Ex: Orthodontiste, Parodontiste...">
+                            <input type="date" name="dateNP" value="${aidesoignant.dateNP}" required>
                         </div>
                     </div>
 
@@ -446,17 +447,31 @@
                                 Email
                                 <span class="required">*</span>
                             </label>
-                            <input type="email" name="emailD" value="${dentiste.emailD}" required>
+                            <input type="email" name="emailP" value="${aidesoignant.emailP}" required>
                         </div>
 
                         <div class="form-group">
                             <label>
-                                <i class="fas fa-phone"></i>
+                                <i class="fas fa-phone-alt"></i>
                                 Téléphone
                             </label>
-                            <input type="tel" name="telD" value="${dentiste.telD}" 
-                                   placeholder="Ex: +216 12 345 678">
+                            <input type="text" name="telephone" value="${aidesoignant.telephone}">
                         </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-school"></i>
+                                Diplôme
+                            </label>
+                            <input type="text" name="recouvrementP" value="${aidesoignant.diplome}">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-address-card"></i>
+                                Adresse
+                            </label>
+                            <input type="text" name="adressee" value="${aidesoignant.adresse}">
+                        </div>
+                        
                     </div>
 
                     <!-- Sécurité -->
@@ -470,7 +485,7 @@
                             <i class="fas fa-key"></i>
                             Nouveau Mot de Passe
                         </label>
-                        <input type="password" name="mdpD" placeholder="Laisser vide pour ne pas changer">
+                        <input type="password" name="mdpP" placeholder="Laisser vide pour ne pas changer">
                         <p class="password-note">
                             <i class="fas fa-info-circle"></i>
                             Laissez ce champ vide si vous ne souhaitez pas modifier votre mot de passe
@@ -479,7 +494,7 @@
 
                     <!-- Boutons -->
                     <div class="btn-group">
-                        <a href="${pageContext.request.contextPath}/dentiste/profile" class="btn btn-cancel">
+                        <a href="${pageContext.request.contextPath}/aidesoignants/profile" class="btn btn-cancel">
                             <i class="fas fa-times"></i>
                             Annuler
                         </a>
@@ -495,7 +510,7 @@
 
     <script>
         // Preview photo upload
-        const photoInput = document.getElementById('photoD');
+        const photoInput = document.getElementById('photoP');
         const photoPreview = document.querySelector('.current-photo');
         const fileName = document.getElementById('fileName');
 

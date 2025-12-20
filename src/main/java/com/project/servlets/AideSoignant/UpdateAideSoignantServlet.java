@@ -1,5 +1,6 @@
 package com.project.servlets.AideSoignant;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,13 +8,21 @@ import java.util.Date;
 
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import com.project.ejb.interfaces.IAideSoignantLocal;
 import com.project.entities.AideSoignant;
+//import com.project.entities.Patient;
+
 
 @WebServlet("/aidesoignants/update")
+@MultipartConfig(
+	    fileSizeThreshold = 1024 * 1024, // 1 MB
+	    maxFileSize = 5 * 1024 * 1024,   // 5 MB
+	    maxRequestSize = 10 * 1024 * 1024 // 10 MB
+	    )
 public class UpdateAideSoignantServlet extends HttpServlet {
     
     private static final long serialVersionUID = 1L;
@@ -27,43 +36,19 @@ public class UpdateAideSoignantServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
-        // Récupérer le paramètre idAS
-        String idStr = req.getParameter("idAS");
-        
-        // Validation : vérifier que le paramètre existe
-        if (idStr == null || idStr.trim().isEmpty()) {
-            HttpSession session = req.getSession();
-            session.setAttribute("errorMessage", "ID de l'aide-soignant manquant.");
-            resp.sendRedirect(req.getContextPath() + "/aidesoignants");
+
+        HttpSession session = req.getSession(false);
+
+        if (session == null || session.getAttribute("aidesoignant") == null) {
+            resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
-        
-        // Conversion sécurisée
-        int id;
-        try {
-            id = Integer.parseInt(idStr.trim());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            HttpSession session = req.getSession();
-            session.setAttribute("errorMessage", "ID invalide : " + idStr);
-            resp.sendRedirect(req.getContextPath() + "/aidesoignants");
-            return;
-        }
-        
-        // Récupérer l'aide-soignant depuis la base de données
-        AideSoignant as = aideSoignantService.getAideSoignant(id);
-        
-        if (as == null) {
-            HttpSession session = req.getSession();
-            session.setAttribute("errorMessage", "Aide-soignant introuvable (ID: " + id + ")");
-            resp.sendRedirect(req.getContextPath() + "/aidesoignants");
-            return;
-        }
-        
-        // Passer l'aide-soignant à la JSP
-        req.setAttribute("aidesoignant", as);
-        req.getRequestDispatcher("/WEB-INF/views/aidesoignants/edit.jsp").forward(req, resp);
+
+        AideSoignant aidesoignant = (AideSoignant) session.getAttribute("aidesoignant");
+        req.setAttribute("aidesoignant", aidesoignant);
+
+        req.getRequestDispatcher("/WEB-INF/views/aidesoignants/editProfile.jsp")
+           .forward(req, resp);
     }
     
     /**
@@ -73,34 +58,20 @@ public class UpdateAideSoignantServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         
-        // Récupérer et valider l'ID
-        String idStr = req.getParameter("idAS");
-        
-        if (idStr == null || idStr.trim().isEmpty()) {
-            HttpSession session = req.getSession();
-            session.setAttribute("errorMessage", "ID manquant lors de la mise à jour.");
-            resp.sendRedirect(req.getContextPath() + "/aidesoignants");
+        HttpSession session = req.getSession(false);
+
+        if (session == null || session.getAttribute("aidesoignant") == null) {
+            resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
+
         
-        int id;
-        try {
-            id = Integer.parseInt(idStr.trim());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            HttpSession session = req.getSession();
-            session.setAttribute("errorMessage", "ID invalide.");
-            resp.sendRedirect(req.getContextPath() + "/aidesoignants");
-            return;
-        }
-        
-        // Récupérer l'aide-soignant existant
-        AideSoignant as = aideSoignantService.getAideSoignant(id);
+        AideSoignant as = (AideSoignant) session.getAttribute("aidesoignant");
         
         if (as == null) {
-            HttpSession session = req.getSession();
+            //HttpSession session = req.getSession();
             session.setAttribute("errorMessage", "Aide-soignant introuvable.");
-            resp.sendRedirect(req.getContextPath() + "/aidesoignants");
+            resp.sendRedirect(req.getContextPath() + "/aidesoignant/dashboard");
             return;
         }
         
@@ -170,11 +141,17 @@ public class UpdateAideSoignantServlet extends HttpServlet {
             }
             
             // Mise à jour de la photo (optionnel)
-            String photo = req.getParameter("photoP");
-            if (photo != null && !photo.trim().isEmpty()) {
-                as.setPhotoP(photo.trim());
+            Part filePart = req.getPart("photoP");
+            if (filePart != null && filePart.getSize() > 0) {
+                // Nom unique pour éviter conflit
+                String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
+                String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
+                new File(uploadPath).mkdirs();
+                filePart.write(uploadPath + File.separator + fileName);
+                as.setPhotoP("uploads/" + fileName);
             }
-            
+
+
             // Mise à jour du sexe
             String sexe = req.getParameter("sexeP");
             if (sexe != null && !sexe.trim().isEmpty()) {
@@ -185,17 +162,18 @@ public class UpdateAideSoignantServlet extends HttpServlet {
             aideSoignantService.updateAideSoignant(as);
             
             // Message de succès
-            HttpSession session = req.getSession();
+            //HttpSession session = req.getSession();
             session.setAttribute("successMessage", "Aide-soignant mis à jour avec succès !");
-            
+            session.setAttribute("aidesoignant",as);
+
             // Redirection vers la liste
-            resp.sendRedirect(req.getContextPath() + "/aidesoignants");
+            resp.sendRedirect(req.getContextPath() + "/aidesoignants/profile");
             
         } catch (Exception e) {
             e.printStackTrace();
-            HttpSession session = req.getSession();
+            //HttpSession session = req.getSession();
             session.setAttribute("errorMessage", "Erreur lors de la mise à jour : " + e.getMessage());
-            resp.sendRedirect(req.getContextPath() + "/aidesoignants");
+            resp.sendRedirect(req.getContextPath() + "/aidesoignant/dashboard");
         }
     }
 }

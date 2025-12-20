@@ -14,5 +14,5 @@ public interface IRendezvousRemote {
     Rendezvous getRendezvous(int id);
     List<Rendezvous> getAllRendezvous();
     List<Rendezvous> findByPatient(Patient patient);
-    
+    List<Rendezvous> getRendezvousByDentiste(int idDentiste);
 }

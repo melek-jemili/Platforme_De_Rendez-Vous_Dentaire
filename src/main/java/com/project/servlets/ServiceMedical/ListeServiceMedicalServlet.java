@@ -25,6 +25,6 @@ public class ListeServiceMedicalServlet extends HttpServlet {
 
         List<ServiceMedical> services = serviceMedicalService.getAllServiceMedical();
         req.setAttribute("services", services);
-        req.getRequestDispatcher("/WEB-INF/views/servicesmedicaux/list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/servicemedical/liste.jsp").forward(req, resp);
     }
 }

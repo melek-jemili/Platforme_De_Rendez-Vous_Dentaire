@@ -21,7 +21,7 @@
             <div class="info-content">
                 <div class="logo-section">
                     <i class="fas fa-heartbeat"></i>
-                    <h1>Smile<span>Everyday</span></h1>
+                    <h1>Dental<span>Care</span></h1>
                 </div>
                 <h2>Bienvenue sur votre plateforme de rendez-vous médical</h2>
                 <p>Gérez vos rendez-vous dentaires en toute simplicité</p>

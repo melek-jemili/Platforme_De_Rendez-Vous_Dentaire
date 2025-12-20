@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Patient - ${sessionScope.patient.prenomP} ${sessionScope.patient.nomP}</title>
+    <title>Dashboard Dentiste - Dr. ${sessionScope.dentiste.nomD}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * {
@@ -77,13 +76,6 @@
             margin: 0 auto 15px;
             font-size: 2rem;
             border: 3px solid white;
-            overflow: hidden;
-        }
-
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
 
         .user-name {
@@ -158,7 +150,6 @@
         .main-content {
             margin-left: 280px;
             padding: 30px;
-            min-height: 100vh;
         }
 
         /* Header */
@@ -236,46 +227,6 @@
             transform: translateY(-2px);
         }
 
-        .btn-edit {
-            background: #3498db;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-edit:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-
-        .btn-delete {
-            background: #e74c3c;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-delete:hover {
-            background: #c0392b;
-            transform: translateY(-2px);
-        }
-
         /* Stats Cards */
         .stats-grid {
             display: grid;
@@ -310,23 +261,23 @@
             font-size: 2rem;
         }
 
+        .stat-icon.patients {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
         .stat-icon.rendezvous {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
         }
 
-        .stat-icon.confirme {
+        .stat-icon.publications {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .stat-icon.services {
             background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
-        }
-
-        .stat-icon.en-attente {
-            background: linear-gradient(135deg, #ffa751 0%, #ffe259 100%);
-            color: white;
-        }
-
-        .stat-icon.annule {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
         }
 
@@ -371,86 +322,64 @@
             color: #667eea;
         }
 
-        /* Rendez-vous Cards Grid */
-        .rdv-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
+        /* Table Styles */
+        .table-wrapper {
+            overflow-x: auto;
         }
 
-        .rdv-card {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
             background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            border-left: 4px solid #667eea;
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
         }
 
-        .rdv-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        .rdv-info {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .rdv-info-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #555;
-            font-size: 0.95rem;
-        }
-
-        .rdv-info-item i {
-            color: #667eea;
-            width: 20px;
-        }
-
-        .rdv-info-item strong {
-            color: #333;
-            min-width: 80px;
-        }
-
-        .rdv-status {
-            display: inline-block;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        thead th {
+            padding: 15px;
+            text-align: left;
             font-weight: 600;
-            align-self: flex-start;
+            color: #333;
+            font-size: 0.9rem;
+            text-transform: uppercase;
         }
 
-        .rdv-status.Confirmé,
-        .rdv-status.confirme {
+        tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody td {
+            padding: 15px;
+            color: #555;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-confirme {
             background: #d4edda;
             color: #155724;
         }
 
-        .rdv-status.En-attente,
-        .rdv-status.en-attente {
+        .status-en-attente {
             background: #fff3cd;
             color: #856404;
         }
 
-        .rdv-status.Annulé,
-        .rdv-status.annule {
+        .status-annule {
             background: #f8d7da;
             color: #721c24;
-        }
-
-        .rdv-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            padding-top: 15px;
-            border-top: 1px solid #dee2e6;
         }
 
         /* Empty State */
@@ -468,7 +397,6 @@
 
         .empty-state p {
             font-size: 1.1rem;
-            margin-bottom: 20px;
         }
 
         /* Alerts */
@@ -567,15 +495,6 @@
             font-size: 0.85rem;
         }
 
-        .section-subtitle {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
@@ -595,10 +514,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .rdv-grid {
-                grid-template-columns: 1fr;
-            }
-
             .dashboard-header {
                 flex-direction: column;
                 align-items: stretch;
@@ -612,10 +527,6 @@
                 width: 100%;
                 justify-content: center;
             }
-
-            .rdv-actions {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -627,22 +538,15 @@
                 <i class="fas fa-tooth"></i>
             </div>
             <h2>Dental<span style="color: #667eea;">Care</span></h2>
-            <p class="specialty">Espace Patient</p>
+            <p class="specialty">Espace Dentiste</p>
         </div>
 
         <div class="user-info">
             <div class="user-avatar">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.patient.photoP}">
-                        <img src="${pageContext.request.contextPath}/${sessionScope.patient.photoP}" alt="Photo">
-                    </c:when>
-                    <c:otherwise>
-                        <i class="fas fa-user"></i>
-                    </c:otherwise>
-                </c:choose>
+                <i class="fas fa-user-md"></i>
             </div>
-            <div class="user-name">${sessionScope.patient.prenomP} ${sessionScope.patient.nomP}</div>
-            <div class="user-email">${sessionScope.patient.emailP}</div>
+            <div class="user-name">Dr. ${sessionScope.dentiste.nomD} ${sessionScope.dentiste.prenomD}</div>
+            <div class="user-email">${sessionScope.dentiste.emailD}</div>
         </div>
 
         <nav class="nav-menu">
@@ -650,11 +554,19 @@
                 <i class="fas fa-th-large"></i>
                 <span>Tableau de bord</span>
             </a>
+            <a href="#patients" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Patients</span>
+            </a>
             <a href="#rendezvous" class="nav-item">
                 <i class="fas fa-calendar-alt"></i>
-                <span>Mes Rendez-vous</span>
+                <span>Rendez-vous</span>
             </a>
-            <a href="${pageContext.request.contextPath}/patient/profile" class="nav-item">
+            <a href="#publications" class="nav-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Publications</span>
+            </a>
+            <a href="${pageContext.request.contextPath}/dentiste/profile" class="nav-item">
                 <i class="fas fa-user-circle"></i>
                 <span>Mon Profil</span>
             </a>
@@ -671,18 +583,18 @@
         <!-- Header -->
         <div class="dashboard-header">
             <div class="header-title">
-                <h1>Bienvenue, ${sessionScope.patient.prenomP}</h1>
+                <h1>Bienvenue, Dr. ${sessionScope.dentiste.nomD}</h1>
                 <p>
                     <i class="far fa-calendar"></i>
                     <fmt:formatDate value="<%= new java.util.Date() %>" pattern="EEEE dd MMMM yyyy" />
                 </p>
             </div>
             <div class="header-actions">
-                <a href="${pageContext.request.contextPath}/rendezvous/add" class="btn btn-success">
+                <a href="${pageContext.request.contextPath}/rendezvous/add" class="btn btn-primary">
                     <i class="fas fa-calendar-plus"></i>
-                    Nouveau Rendez-vous
+                    Nouveau RDV
                 </a>
-                <a href="${pageContext.request.contextPath}/patient/profile" class="btn btn-info">
+                <a href="${pageContext.request.contextPath}/dentiste/profile" class="btn btn-info">
                     <i class="fas fa-user-edit"></i>
                     Mon Profil
                 </a>
@@ -707,92 +619,121 @@
         <!-- Stats Cards -->
         <div class="stats-grid" id="overview">
             <div class="stat-card">
+                <div class="stat-icon patients">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>${patients.size()}</h3>
+                    <p>Patients Total</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
                 <div class="stat-icon rendezvous">
                     <i class="fas fa-calendar-check"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>${fn:length(Rendezvous)}</h3>
-                    <p>Rendez-vous Total</p>
+                    <h3>${rendezvous.size()}</h3>
+                    <p>Rendez-vous</p>
                 </div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon confirme">
-                    <i class="fas fa-check-circle"></i>
+                <div class="stat-icon publications">
+                    <i class="fas fa-newspaper"></i>
                 </div>
                 <div class="stat-info">
-                    <c:set var="confirmeCount" value="0"/>
-                    <c:forEach var="rdv" items="${Rendezvous}">
-                        <c:if test="${rdv.statutRv == 'Confirmé' || rdv.statutRv == 'confirme'}">
-                            <c:set var="confirmeCount" value="${confirmeCount + 1}"/>
-                        </c:if>
-                    </c:forEach>
-                    <h3>${confirmeCount}</h3>
-                    <p>Confirmés</p>
+                    <h3>${publications.size()}</h3>
+                    <p>Publications</p>
                 </div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon en-attente">
-                    <i class="fas fa-clock"></i>
+                <div class="stat-icon services">
+                    <i class="fas fa-tooth"></i>
                 </div>
                 <div class="stat-info">
-                    <c:set var="attenteCount" value="0"/>
-                    <c:forEach var="rdv" items="${Rendezvous}">
-                        <c:if test="${rdv.statutRv == 'En attente' || rdv.statutRv == 'en-attente'}">
-                            <c:set var="attenteCount" value="${attenteCount + 1}"/>
-                        </c:if>
-                    </c:forEach>
-                    <h3>${attenteCount}</h3>
-                    <p>En Attente</p>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon annule">
-                    <i class="fas fa-times-circle"></i>
-                </div>
-                <div class="stat-info">
-                    <c:set var="annuleCount" value="0"/>
-                    <c:forEach var="rdv" items="${Rendezvous}">
-                        <c:if test="${rdv.statutRv == 'Annulé' || rdv.statutRv == 'annule'}">
-                            <c:set var="annuleCount" value="${annuleCount + 1}"/>
-                        </c:if>
-                    </c:forEach>
-                    <h3>${annuleCount}</h3>
-                    <p>Annulés</p>
+                    <h3>${services.size()}</h3>
+                    <p>Services Médicaux</p>
                 </div>
             </div>
         </div>
 
         <!-- Quick Actions -->
-        <h2 class="section-subtitle">
+        <h2 style="color: white; margin-bottom: 20px; font-size: 1.5rem;">
             <i class="fas fa-bolt"></i> Actions Rapides
         </h2>
         <div class="quick-actions">
-            <a href="${pageContext.request.contextPath}/rendezvous/add" class="quick-action-card">
+            <a href="${pageContext.request.contextPath}/actesmedicaux/add" class="quick-action-card">
                 <div class="quick-action-icon">
-                    <i class="fas fa-calendar-plus"></i>
+                    <i class="fas fa-notes-medical"></i>
                 </div>
-                <h3>Créer un Rendez-vous</h3>
-                <p>Réservez un nouveau rendez-vous</p>
+                <h3>Créer un Acte Médical</h3>
+                <p>Enregistrer un nouvel acte</p>
             </a>
 
-            <a href="${pageContext.request.contextPath}/patients/update" class="quick-action-card">
+            <a href="${pageContext.request.contextPath}/servicesmedicaux/add" class="quick-action-card">
                 <div class="quick-action-icon">
-                    <i class="fas fa-user-edit"></i>
+                    <i class="fas fa-clinic-medical"></i>
                 </div>
-                <h3>Modifier Profil</h3>
-                <p>Mettre à jour vos informations</p>
+                <h3>Ajouter un Service</h3>
+                <p>Nouveau service médical</p>
             </a>
 
-            <a href="${pageContext.request.contextPath}/patient/profile" class="quick-action-card">
+            <a href="${pageContext.request.contextPath}/publications/add" class="quick-action-card">
                 <div class="quick-action-icon">
-                    <i class="fas fa-id-card"></i>
+                    <i class="fas fa-plus-circle"></i>
                 </div>
-                <h3>Voir Profil</h3>
-                <p>Consulter vos informations</p>
+                <h3>Publier</h3>
+                <p>Nouvelle publication</p>
             </a>
+        </div>
+
+        <!-- Patients Section -->
+        <div class="section" id="patients">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    Mes Patients
+                </h2>
+            </div>
+
+            <c:choose>
+                <c:when test="${empty patients}">
+                    <div class="empty-state">
+                        <i class="fas fa-user-injured"></i>
+                        <p>Aucun patient enregistré</p>
+                    </div>
+                </c:when>
+                <c:otherwise>
+  <jsp:useBean id="displayedPatientIds" class="java.util.HashSet" scope="page"/>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom & Prénom</th>
+                <th>Email</th>
+                <th>Recouvrement</th>
+                <th>Groupe Sanguin</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="rdv" items="${rendezvous}">
+                <c:if test="${displayedPatientIds.add(rdv.patient.idP)}">
+                    <tr>
+                        <td><strong>${rdv.patient.nomP} ${rdv.patient.prenomP}</strong></td>
+                        <td>${rdv.patient.emailP}</td>
+                        <td>${rdv.patient.recouvrementP}</td>
+                        <td>${rdv.patient.groupeSanguinP}</td>
+                    </tr>
+                </c:if>
+            </c:forEach>
+        </tbody>
+    </table>
+</div>
+                </c:otherwise>
+            </c:choose>
         </div>
 
         <!-- Rendez-vous Section -->
@@ -800,78 +741,91 @@
             <div class="section-header">
                 <h2 class="section-title">
                     <i class="fas fa-calendar-alt"></i>
-                    Mes Rendez-vous
+                    Rendez-vous
                 </h2>
-                <a href="${pageContext.request.contextPath}/rendezvous/add" class="btn btn-success">
-                    <i class="fas fa-calendar-plus"></i>
-                    Nouveau Rendez-vous
-                </a>
             </div>
 
             <c:choose>
-                <c:when test="${empty Rendezvous}">
+                <c:when test="${empty rendezvous}">
                     <div class="empty-state">
                         <i class="fas fa-calendar-times"></i>
-                        <p>Aucun rendez-vous pour le moment</p>
-                        <a href="${pageContext.request.contextPath}/rendezvous/add" class="btn btn-primary" style="margin-top: 20px;">
-                            <i class="fas fa-calendar-plus"></i>
-                            Créer mon premier rendez-vous
-                        </a>
+                        <p>Aucun rendez-vous</p>
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <div class="rdv-grid">
-                        <c:forEach items="${Rendezvous}" var="rdv">
-                            <div class="rdv-card">
-                                <div class="rdv-info">
-                                    <div class="rdv-info-item">
-                                        <i class="fas fa-calendar"></i>
-                                        <strong>Date :</strong>
-                                        <span>
-                                            <fmt:formatDate value="${rdv.dateRv}" pattern="dd/MM/yyyy" />
-                                        </span>
-                                    </div>
-                                    <div class="rdv-info-item">
-                                        <i class="fas fa-clock"></i>
-                                        <strong>Heure :</strong>
-                                        <span>${rdv.heureRv}</span>
-                                    </div>
-                                    <div class="rdv-info-item">
-                                        <i class="fas fa-user-md"></i>
-                                        <strong>Dentiste :</strong>
-                                        <span>Dr. ${rdv.dentiste.nomD} ${rdv.dentiste.prenomD}</span>
-                                    </div>
-                                    <c:if test="${not empty rdv.detailsRv}">
-                                        <div class="rdv-info-item">
-                                            <i class="fas fa-file-medical"></i>
-                                            <strong>Détails :</strong>
-                                            <span>${rdv.detailsRv}</span>
-                                        </div>
-                                    </c:if>
-                                </div>
-                                
-                                <span class="rdv-status ${fn:replace(rdv.statutRv, ' ', '-')}">${rdv.statutRv}</span>
-                                
-                                <!-- Boutons Actions -->
-                                <div class="rdv-actions">
-                                    <!-- Modifier -->
-                                    <form action="${pageContext.request.contextPath}/rendezvous/update" method="get" style="display:inline;">
-                                        <input type="hidden" name="idRv" value="${rdv.idRv}">
-                                        <button type="submit" class="btn-edit">
-                                            <i class="fas fa-edit"></i> Modifier
-                                        </button>
-                                    </form>
-                                    <!-- Supprimer -->
-                                    <form action="${pageContext.request.contextPath}/rendezvous/delete" method="get" style="display:inline;" 
-                                          onsubmit="return confirm('Voulez-vous vraiment supprimer ce rendez-vous ?');">
-                                        <input type="hidden" name="idRv" value="${rdv.idRv}">
-                                        <button type="submit" class="btn-delete">
-                                            <i class="fas fa-trash-alt"></i> Supprimer
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </c:forEach>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Heure</th>
+                                    <th>Patient</th>
+                                    <th>Statut</th>
+                                    <th>Détails</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="rdv" items="${rendezvous}" begin="0" end="4">
+                                    <tr>
+                                        <td><fmt:formatDate value="${rdv.dateRv}" pattern="dd/MM/yyyy" /></td>
+                                        <td>${rdv.heureRv}</td>
+                                        <td><strong>${rdv.patient.nomP} ${rdv.patient.prenomP}</strong></td>
+                                        <td>
+                                            <span class="status-badge status-${rdv.statutRv}">
+                                                ${rdv.statutRv}
+                                            </span>
+                                        </td>
+                                        <td>${rdv.detailsRv}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
+        <!-- Publications Section -->
+        <div class="section" id="publications">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-newspaper"></i>
+                    Publications
+                </h2>
+
+            </div>
+
+            <c:choose>
+                <c:when test="${empty publications}">
+                    <div class="empty-state">
+                        <i class="fas fa-newspaper"></i>
+                        <p>Aucune publication</p>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Titre</th>
+                                    <th>Catégorie</th>
+                                    <th>Date</th>
+                                    <th>Résumé</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="pub" items="${publications}" begin="0" end="4">
+                                    <tr>
+                                        <td><strong>${pub.titre}</strong></td>
+                                        <td>${pub.categorie}</td>
+                                        <td><fmt:formatDate value="${pub.dateNP}" pattern="dd/MM/yyyy" /></td>
+                                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            ${pub.resume}
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </c:otherwise>
             </c:choose>

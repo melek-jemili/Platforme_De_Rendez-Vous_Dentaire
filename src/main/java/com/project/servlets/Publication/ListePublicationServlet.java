@@ -27,7 +27,7 @@ public class ListePublicationServlet extends HttpServlet {
             List<Publication> publications = publicationService.getAllPublication();
             req.setAttribute("publications", publications);
             req.setAttribute("totalPublications", publications.size());
-            req.getRequestDispatcher("/WEB-INF/views/publications/list.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/publication/liste.jsp").forward(req, resp);
             
         } catch (Exception e) {
             e.printStackTrace();

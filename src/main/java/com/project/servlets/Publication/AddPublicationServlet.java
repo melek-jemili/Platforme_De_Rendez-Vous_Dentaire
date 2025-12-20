@@ -24,7 +24,7 @@ public class AddPublicationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         
-        req.getRequestDispatcher("/WEB-INF/views/publications/add.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/publication/addpublication.jsp").forward(req, resp);
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)

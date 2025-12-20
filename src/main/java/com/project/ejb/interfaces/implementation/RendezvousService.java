@@ -41,7 +41,7 @@ public class RendezvousService implements IRendezvousLocal, IRendezvousRemote {
 
     @Override
     public List<Rendezvous> getAllRendezvous() {
-        return em.createQuery("SELECT r FROM RendezVous r", Rendezvous.class).getResultList();
+        return em.createQuery("SELECT r FROM Rendezvous r", Rendezvous.class).getResultList();
     }
     @Override
     public List<Rendezvous> findByPatient(Patient patient) {
@@ -52,5 +52,11 @@ public class RendezvousService implements IRendezvousLocal, IRendezvousRemote {
         )
         .setParameter("patient", patient)
         .getResultList();
+    }
+    @Override
+    public List<Rendezvous> getRendezvousByDentiste(int idDentiste) {
+        return em.createQuery("SELECT r FROM Rendezvous r WHERE r.dentiste.idD = :idD", Rendezvous.class)
+                 .setParameter("idD", idDentiste)
+                 .getResultList();
     }
 }
