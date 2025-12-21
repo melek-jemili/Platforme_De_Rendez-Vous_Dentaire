@@ -686,8 +686,8 @@
         <div class="user-info">
             <div class="user-avatar">
                 <c:choose>
-                    <c:when test="${not empty sessionScope.aidesoignant.photo}">
-                        <img src="${pageContext.request.contextPath}/${sessionScope.aidesoignant.photo}" alt="Photo">
+                    <c:when test="${not empty sessionScope.aidesoignant.photoP}">
+                        <img src="${pageContext.request.contextPath}/${sessionScope.aidesoignant.photoP}" alt="Photo">
                     </c:when>
                     <c:otherwise>
                         <i class="fas fa-user-nurse"></i>
@@ -769,14 +769,14 @@
             </div>
         </c:if>
 
-        <!-- Stats Cards -->
+<!-- Stats Cards -->
         <div class="stats-grid" id="overview">
             <div class="stat-card">
                 <div class="stat-icon patients">
                     <i class="fas fa-users"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>${fn:length(patients)}</h3>
+                    <h3>${patients.size()}</h3>
                     <p>Patients Total</p>
                 </div>
             </div>
@@ -786,7 +786,7 @@
                     <i class="fas fa-calendar-check"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>${fn:length(rendezvous)}</h3>
+                    <h3>${rendezvous.size()}</h3>
                     <p>Rendez-vous</p>
                 </div>
             </div>
@@ -796,7 +796,7 @@
                     <i class="fas fa-newspaper"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>${fn:length(publications)}</h3>
+                    <h3>${publications.size()}</h3>
                     <p>Publications</p>
                 </div>
             </div>
@@ -806,7 +806,7 @@
                     <i class="fas fa-tooth"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>${fn:length(services)}</h3>
+                    <h3>${services.size()}</h3>
                     <p>Services Médicaux</p>
                 </div>
             </div>
@@ -817,7 +817,7 @@
             <i class="fas fa-bolt"></i> Actions Rapides
         </h2>
         <div class="quick-actions">
-            <a href="${pageContext.request.contextPath}/actesmedicaux/add" class="quick-action-card">
+            <a href="${pageContext.request.contextPath}/actesmedicaux" class="quick-action-card">
                 <div class="quick-action-icon">
                     <i class="fas fa-notes-medical"></i>
                 </div>
@@ -825,7 +825,7 @@
                 <p>Enregistrer un nouvel acte</p>
             </a>
 
-            <a href="${pageContext.request.contextPath}/servicesmedicaux/add" class="quick-action-card">
+            <a href="${pageContext.request.contextPath}/servicesmedicaux" class="quick-action-card">
                 <div class="quick-action-icon">
                     <i class="fas fa-clinic-medical"></i>
                 </div>
@@ -1008,10 +1008,7 @@
                     <i class="fas fa-newspaper"></i>
                     Publications Récentes
                 </h2>
-                <a href="${pageContext.request.contextPath}/publications/list" class="btn btn-primary">
-                    <i class="fas fa-list"></i>
-                    Toutes les publications
-                </a>
+             
             </div>
 
             <c:choose>
@@ -1050,7 +1047,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <fmt:formatDate value="${pub.datePublication}" pattern="dd/MM/yyyy" />
+                                            <fmt:formatDate value="${pub.dateNP}" pattern="dd/MM/yyyy" />
                                         </td>
                                         <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                             ${fn:substring(pub.resume, 0, 80)}
@@ -1064,7 +1061,7 @@
                     
                     <c:if test="${fn:length(publications) > 5}">
                         <div style="text-align: center; margin-top: 20px;">
-                            <a href="${pageContext.request.contextPath}/publications/list" class="btn btn-primary">
+                            <a href="${pageContext.request.contextPath}/publications" class="btn btn-primary">
                                 <i class="fas fa-eye"></i>
                                 Voir les ${fn:length(publications) - 5} autres publications
                             </a>

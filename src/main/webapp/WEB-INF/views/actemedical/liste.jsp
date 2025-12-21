@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services Médicaux - Plateforme Dentaire</title>
+    <title>Actes Médicaux - Plateforme Dentaire</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * {
@@ -60,6 +60,7 @@
         .header-actions {
             display: flex;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -186,8 +187,8 @@
             border-color: #667eea;
         }
 
-        /* Services Table */
-        .services-container {
+        /* Actes Table */
+        .actes-container {
             background: white;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
@@ -232,40 +233,38 @@
             color: #333;
         }
 
-        .service-name {
+        .patient-info {
             font-weight: 600;
             color: #667eea;
-            font-size: 1.05rem;
         }
 
-        .service-type {
+        .service-badge {
             display: inline-block;
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
+            background: #e3f2fd;
+            color: #1976d2;
         }
 
-        .type-consultation { background: #e3f2fd; color: #1976d2; }
-        .type-chirurgie { background: #fce4ec; color: #c2185b; }
-        .type-orthodontie { background: #f3e5f5; color: #7b1fa2; }
-        .type-prothese { background: #fff3e0; color: #f57c00; }
-        .type-preventif { background: #e8f5e9; color: #388e3c; }
-        .type-urgence { background: #ffebee; color: #d32f2f; }
-        .type-autre { background: #f5f5f5; color: #616161; }
-
-        .service-price {
-            font-size: 1.3rem;
+        .price {
+            font-size: 1.2rem;
             font-weight: 700;
             color: #2ecc71;
         }
 
-        .service-description {
+        .date-info {
             color: #666;
-            max-width: 300px;
+            font-size: 0.9rem;
+        }
+
+        .description-cell {
+            max-width: 250px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            color: #666;
         }
 
         .action-buttons {
@@ -284,15 +283,6 @@
             align-items: center;
             gap: 6px;
             text-decoration: none;
-        }
-
-        .btn-view {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-view:hover {
-            background: #5568d3;
         }
 
         .btn-edit {
@@ -403,7 +393,7 @@
                 padding: 12px 8px;
             }
 
-            .service-description {
+            .description-cell {
                 max-width: 150px;
             }
 
@@ -419,28 +409,52 @@
         <div class="header">
             <div class="header-top">
                 <h1>
-                    <i class="fas fa-tooth"></i>
-                    Services Médicaux
+                    <i class="fas fa-stethoscope"></i>
+                    Actes Médicaux
                 </h1>
                 <div class="header-actions">
-                    <a href="${pageContext.request.contextPath}/servicesmedicaux/add" class="btn btn-primary">
+                    <a href="${pageContext.request.contextPath}/actesmedicaux/add" class="btn btn-primary">
                         <i class="fas fa-plus"></i>
-                        Ajouter un Service
+                        Nouvel Acte
                     </a>
-                    <a href="${pageContext.request.contextPath}/dentiste/dashboard" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        Retour
-                    </a>
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.dentiste}">
+                            <a href="${pageContext.request.contextPath}/dentiste/dashboard" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i>
+                                Retour
+                            </a>
+                        </c:when>
+                        <c:when test="${not empty sessionScope.aidesoignant}">
+                            <a href="${pageContext.request.contextPath}/aidesoignant/dashboard" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i>
+                                Retour
+                            </a>
+                        </c:when>
+                        
+                    </c:choose>
                 </div>
             </div>
 
             <!-- Statistics -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <i class="fas fa-list stat-icon"></i>
+                    <i class="fas fa-file-medical stat-icon"></i>
                     <div class="stat-info">
-                        <h3>${services.size()}</h3>
-                        <p>Services disponibles</p>
+                        <h3>${actes.size()}</h3>
+                        <p>Actes enregistrés</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-euro-sign stat-icon"></i>
+                    <div class="stat-info">
+                        <h3>
+                            <c:set var="total" value="0" />
+                            <c:forEach var="acte" items="${actes}">
+                                <c:set var="total" value="${total + acte.tarifAM}" />
+                            </c:forEach>
+                            <fmt:formatNumber value="${total}" pattern="#,##0.00"/>
+                        </h3>
+                        <p>Total DT</p>
                     </div>
                 </div>
             </div>
@@ -464,121 +478,106 @@
         <!-- Search and Filter -->
         <div class="controls">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Rechercher un service...">
+                <input type="text" id="searchInput" placeholder="Rechercher par patient, service...">
                 <i class="fas fa-search"></i>
             </div>
-            <select class="filter-select" id="typeFilter">
-                <option value="">Tous les types</option>
-                <option value="Consultation">Consultation</option>
-                <option value="Chirurgie">Chirurgie</option>
-                <option value="Orthodontie">Orthodontie</option>
-                <option value="Prothèse">Prothèse</option>
-                <option value="Préventif">Préventif</option>
-                <option value="Urgence">Urgence</option>
-                <option value="Autre">Autre</option>
+            <select class="filter-select" id="serviceFilter">
+                <option value="">Tous les services</option>
+                <c:forEach var="acte" items="${actes}">
+                    <c:if test="${not empty acte.serviceMedical}">
+                        <option value="${acte.serviceMedical.nomSM}">${acte.serviceMedical.nomSM}</option>
+                    </c:if>
+                </c:forEach>
             </select>
         </div>
 
-        <!-- Services Table -->
-        <div class="services-container">
+        <!-- Actes Table -->
+        <div class="actes-container">
             <c:choose>
-                <c:when test="${empty services}">
+                <c:when test="${empty actes}">
                     <div class="empty-state">
-                        <i class="fas fa-clinic-medical"></i>
-                        <h3>Aucun service médical disponible</h3>
-                        <p>Commencez par ajouter votre premier service</p>
-                        <a href="${pageContext.request.contextPath}/servicesmedicaux/add" class="btn btn-primary">
+                        <i class="fas fa-file-medical"></i>
+                        <h3>Aucun acte médical enregistré</h3>
+                        <p>Commencez par ajouter votre premier acte médical</p>
+                        <a href="${pageContext.request.contextPath}/actesmedicaux/add" class="btn btn-primary">
                             <i class="fas fa-plus"></i>
-                            Ajouter un Service
+                            Ajouter un Acte
                         </a>
                     </div>
                 </c:when>
                 <c:otherwise>
                     <div class="table-wrapper">
-                        <table id="servicesTable">
+                        <table id="actesTable">
                             <thead>
                                 <tr>
                                     <th>N°</th>
-                                    <th>Nom du Service</th>
-                                    <th>Type</th>
+                                    <th>Patient</th>
+                                    <th>Dentiste</th>
+                                    <th>Service</th>
+                                    <th>Date RDV</th>
                                     <th>Description</th>
                                     <th>Tarif</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="service" items="${services}">
-                                    <tr data-type="${service.typeSM}" data-name="${service.nomSM}">
-                                        <td>${service.numSM}</td>
+                                <c:forEach var="acte" items="${actes}">
+                                    <tr data-patient="${acte.rendezvous.patient.nomP} ${acte.rendezvous.patient.prenomP}"
+                                        data-service="${acte.serviceMedical.nomSM}">
+                                        <td>${acte.idAM}</td>
                                         <td>
-                                            <span class="service-name">${service.nomSM}</span>
+                                            <div class="patient-info">
+                                                ${acte.rendezvous.patient.nomP} ${acte.rendezvous.patient.prenomP}
+                                            </div>
                                         </td>
                                         <td>
-                                            <c:set var="typeClass" value="type-autre" />
-                                            <c:choose>
-                                                <c:when test="${service.typeSM == 'Consultation'}">
-                                                    <c:set var="typeClass" value="type-consultation" />
-                                                </c:when>
-                                                <c:when test="${service.typeSM == 'Chirurgie'}">
-                                                    <c:set var="typeClass" value="type-chirurgie" />
-                                                </c:when>
-                                                <c:when test="${service.typeSM == 'Orthodontie'}">
-                                                    <c:set var="typeClass" value="type-orthodontie" />
-                                                </c:when>
-                                                <c:when test="${service.typeSM == 'Prothèse'}">
-                                                    <c:set var="typeClass" value="type-prothese" />
-                                                </c:when>
-                                                <c:when test="${service.typeSM == 'Préventif'}">
-                                                    <c:set var="typeClass" value="type-preventif" />
-                                                </c:when>
-                                                <c:when test="${service.typeSM == 'Urgence'}">
-                                                    <c:set var="typeClass" value="type-urgence" />
-                                                </c:when>
-                                            </c:choose>
-                                            <span class="service-type ${typeClass}">
-                                                ${service.typeSM}
+                                            Dr. ${acte.rendezvous.dentiste.nomD} ${acte.rendezvous.dentiste.prenomD}
+                                        </td>
+                                        <td>
+                                            <span class="service-badge">
+                                                ${acte.serviceMedical.nomSM}
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="service-description" title="${service.descriptionSM}">
+                                            <div class="date-info">
+                                                <fmt:formatDate value="${acte.rendezvous.dateRv}" pattern="dd/MM/yyyy"/>
+                                                <br>
+                                                <fmt:formatDate value="${acte.rendezvous.dateRv}" pattern="HH:mm"/>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="description-cell" title="${acte.descriptionAM}">
                                                 <c:choose>
-                                                    <c:when test="${not empty service.descriptionSM}">
-                                                        ${service.descriptionSM}
+                                                    <c:when test="${not empty acte.descriptionAM}">
+                                                        ${acte.descriptionAM}
                                                     </c:when>
                                                     <c:otherwise>
                                                         Aucune description
                                                     </c:otherwise>
                                                 </c:choose>
-                                            </span>
+                                            </div>
                                         </td>
                                         <td>
-                                            <span class="service-price">
-                                                <fmt:formatNumber value="${service.tarifSM}" pattern="#,##0.00" /> DT
+                                            <span class="price">
+                                                <fmt:formatNumber value="${acte.tarifAM}" pattern="#,##0.00"/> DT
                                             </span>
                                         </td>
                                         <td>
                                             <div class="action-buttons">
-                                                <a href="${pageContext.request.contextPath}/servicesmedicaux/view?numSM=${service.numSM}" 
-                                                   class="btn-action btn-view">
-                                                    <i class="fas fa-eye"></i>
-                                                    Détails
+                                                <a href="${pageContext.request.contextPath}/actesmedicaux/update?idAM=${acte.idAM}" 
+                                                   class="btn-action btn-edit">
+                                                    <i class="fas fa-edit"></i>
+                                                    Modifier
                                                 </a>
-                                                <c:if test="${not empty sessionScope.aidesoignant}">
-                                                    <a href="${pageContext.request.contextPath}/servicesmedicaux/update?numSM=${service.numSM}" 
-                                                       class="btn-action btn-edit">
-                                                        <i class="fas fa-edit"></i>
-                                                        Modifier
-                                                    </a>
-                                                    <form action="${pageContext.request.contextPath}/servicesmedicaux/delete" 
-                                                          method="get" style="display:inline;"
-                                                          onsubmit="return confirm('Voulez-vous vraiment supprimer ce service ?');">
-                                                        <input type="hidden" name="numSM" value="${service.numSM}">
-                                                        <button type="submit" class="btn-action btn-delete">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                            Supprimer
-                                                        </button>
-                                                    </form>
-                                                </c:if>
+                                                <form action="${pageContext.request.contextPath}/actesmedicaux/delete" 
+                                                      method="post" style="display:inline;"
+                                                      onsubmit="return confirm('Voulez-vous vraiment supprimer cet acte médical ?');">
+                                                    <input type="hidden" name="numAM" value="${acte.numAM}">
+                                                    <button type="submit" class="btn-action btn-delete">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                        Supprimer
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -594,21 +593,21 @@
     <script>
         // Search and filter functionality
         const searchInput = document.getElementById('searchInput');
-        const typeFilter = document.getElementById('typeFilter');
-        const tableRows = document.querySelectorAll('#servicesTable tbody tr');
+        const serviceFilter = document.getElementById('serviceFilter');
+        const tableRows = document.querySelectorAll('#actesTable tbody tr');
 
-        function filterServices() {
+        function filterActes() {
             const searchTerm = searchInput.value.toLowerCase();
-            const selectedType = typeFilter.value;
+            const selectedService = serviceFilter.value;
 
             tableRows.forEach(row => {
-                const name = row.dataset.name.toLowerCase();
-                const type = row.dataset.type;
+                const patient = row.dataset.patient.toLowerCase();
+                const service = row.dataset.service;
 
-                const matchesSearch = name.includes(searchTerm);
-                const matchesType = !selectedType || type === selectedType;
+                const matchesSearch = patient.includes(searchTerm) || service.toLowerCase().includes(searchTerm);
+                const matchesService = !selectedService || service === selectedService;
 
-                if (matchesSearch && matchesType) {
+                if (matchesSearch && matchesService) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
@@ -616,8 +615,19 @@
             });
         }
 
-        searchInput.addEventListener('input', filterServices);
-        typeFilter.addEventListener('change', filterServices);
+        searchInput.addEventListener('input', filterActes);
+        serviceFilter.addEventListener('change', filterActes);
+
+        // Remove duplicate options in service filter
+        const serviceFilterOptions = Array.from(serviceFilter.options);
+        const uniqueServices = [...new Set(serviceFilterOptions.map(opt => opt.value))];
+        serviceFilter.innerHTML = '<option value="">Tous les services</option>';
+        uniqueServices.filter(s => s).forEach(service => {
+            const option = document.createElement('option');
+            option.value = service;
+            option.textContent = service;
+            serviceFilter.appendChild(option);
+        });
 
         // Auto-hide alerts after 5 seconds
         setTimeout(() => {

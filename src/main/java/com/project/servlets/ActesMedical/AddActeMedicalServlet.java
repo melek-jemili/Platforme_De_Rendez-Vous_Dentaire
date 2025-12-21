@@ -2,6 +2,8 @@ package com.project.servlets.ActesMedical;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
+
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,7 +18,6 @@ import com.project.entities.ServiceMedical;
 
 @WebServlet("/actesmedicaux/add")
 public class AddActeMedicalServlet extends HttpServlet {
-
     private static final long serialVersionUID = 1L;
     
     @EJB
@@ -27,32 +28,57 @@ public class AddActeMedicalServlet extends HttpServlet {
     
     @EJB
     private IServiceMedicalLocal serviceMedicalService;
-
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        // Récupérer tous les rendez-vous
+        List<Rendezvous> rendezvousList = rendezvousService.getAllRendezvous();
+        
+        // Récupérer tous les services médicaux
+        List<ServiceMedical> servicesList = serviceMedicalService.getAllServiceMedical();
+        
+        // Passer les attributs à la JSP
+        req.setAttribute("rendezvousList", rendezvousList);
+        req.setAttribute("servicesList", servicesList);
+        
+        req.getRequestDispatcher("/WEB-INF/views/actemedical/add.jsp")
+           .forward(req, resp);
+    }
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
-        ActeMedical acte = new ActeMedical();
-        
-        // Récupérer le rendez-vous
-        int idRv = Integer.parseInt(req.getParameter("idRv"));
-        Rendezvous rdv = rendezvousService.getRendezvous(idRv);
-        acte.setRendezvous(rdv);
-        
-        // Récupérer le service médical
-        int numSM = Integer.parseInt(req.getParameter("numSM"));
-        ServiceMedical service = serviceMedicalService.getServiceMedical(numSM);
-        acte.setServiceMedical(service);
-        
-        acte.setDescriptionAM(req.getParameter("descriptionAM"));
-        
-        String tarifStr = req.getParameter("tarifAM");
-        if (tarifStr != null && !tarifStr.isEmpty()) {
-            acte.setTarifAM(new BigDecimal(tarifStr));
+        try {
+            ActeMedical acte = new ActeMedical();
+            
+            // Récupérer le rendez-vous
+            int idRv = Integer.parseInt(req.getParameter("idRv"));
+            Rendezvous rdv = rendezvousService.getRendezvous(idRv);
+            acte.setRendezvous(rdv);
+            
+            // Récupérer le service médical
+            int numSM = Integer.parseInt(req.getParameter("numSM"));
+            ServiceMedical service = serviceMedicalService.getServiceMedical(numSM);
+            acte.setServiceMedical(service);
+            
+            acte.setDescriptionAM(req.getParameter("descriptionAM"));
+            
+            String tarifStr = req.getParameter("tarifAM");
+            if (tarifStr != null && !tarifStr.isEmpty()) {
+                acte.setTarifAM(new BigDecimal(tarifStr));
+            }
+            
+            acteMedicalService.addActeMedical(acte);
+            
+            // Message de succès
+            req.getSession().setAttribute("successMessage", "Acte médical ajouté avec succès !");
+            resp.sendRedirect(req.getContextPath() + "/actesmedicaux");
+            
+        } catch (Exception e) {
+            // Message d'erreur
+            req.getSession().setAttribute("errorMessage", "Erreur lors de l'ajout de l'acte médical : " + e.getMessage());
+            resp.sendRedirect(req.getContextPath() + "/actesmedicaux/add");
         }
-
-        acteMedicalService.addActeMedical(acte);
-
-        resp.sendRedirect(req.getContextPath() + "/actesmedicaux");
     }
 }

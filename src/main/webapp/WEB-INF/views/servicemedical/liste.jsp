@@ -423,11 +423,21 @@
                     Services Médicaux
                 </h1>
                 <div class="header-actions">
-                    <a href="${pageContext.request.contextPath}/aidesoignants/dashboard" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        Retour
-                    </a>
-                </div>
+    <c:choose>
+        <c:when test="${not empty sessionScope.dentiste}">
+            <a href="${pageContext.request.contextPath}/dentiste/dashboard" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                Retour
+            </a>
+        </c:when>
+        <c:when test="${not empty sessionScope.aidesoignant}">
+            <a href="${pageContext.request.contextPath}/aidesoignant/dashboard" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                Retour
+            </a>
+        </c:when>
+    </c:choose>
+</div>
             </div>
 
             <!-- Statistics -->
@@ -548,30 +558,28 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <div class="action-buttons">
-                                                <a href="${pageContext.request.contextPath}/servicesmedicaux/view?numSM=${service.numSM}" 
-                                                   class="btn-action btn-view">
-                                                    <i class="fas fa-eye"></i>
-                                                    Détails
-                                                </a>
-                                                <c:if test="${not empty sessionScope.aidesoignant}">
-                                                    <a href="${pageContext.request.contextPath}/servicesmedicaux/update?numSM=${service.numSM}" 
-                                                       class="btn-action btn-edit">
-                                                        <i class="fas fa-edit"></i>
-                                                        Modifier
-                                                    </a>
-                                                    <form action="${pageContext.request.contextPath}/servicesmedicaux/delete" 
-                                                          method="get" style="display:inline;"
-                                                          onsubmit="return confirm('Voulez-vous vraiment supprimer ce service ?');">
-                                                        <input type="hidden" name="numSM" value="${service.numSM}">
-                                                        <button type="submit" class="btn-action btn-delete">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                            Supprimer
-                                                        </button>
-                                                    </form>
-                                                </c:if>
-                                            </div>
-                                        </td>
+    <div class="action-buttons">
+        <!-- Bouton Modifier - TOUJOURS visible -->
+        <a href="${pageContext.request.contextPath}/servicesmedicaux/update?numSM=${service.numSM}" 
+           class="btn-action btn-edit">
+            <i class="fas fa-edit"></i>
+            Modifier
+        </a>
+        
+        <!-- Bouton Supprimer - SEULEMENT si aide-soignant connecté -->
+        <c:if test="${not empty sessionScope.aidesoignant}">
+            <form action="${pageContext.request.contextPath}/servicesmedicaux/delete" 
+                  method="get" style="display:inline;"
+                  onsubmit="return confirm('Voulez-vous vraiment supprimer ce service ?');">
+                <input type="hidden" name="numSM" value="${service.numSM}">
+                <button type="submit" class="btn-action btn-delete">
+                    <i class="fas fa-trash-alt"></i>
+                    Supprimer
+                </button>
+            </form>
+        </c:if>
+    </div>
+</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

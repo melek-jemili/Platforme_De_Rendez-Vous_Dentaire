@@ -17,7 +17,16 @@ public class UpdateServiceMedicalServlet extends HttpServlet {
     
     @EJB
     private IServiceMedicalLocal serviceMedicalService;
-
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        int numSM = Integer.parseInt(req.getParameter("numSM"));
+        ServiceMedical service = serviceMedicalService.getServiceMedical(numSM);
+        req.setAttribute("service", service);
+        req.getRequestDispatcher("/WEB-INF/views/servicemedical/edit.jsp")
+           .forward(req, resp);
+    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

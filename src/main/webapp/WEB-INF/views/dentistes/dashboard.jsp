@@ -664,7 +664,7 @@
             <i class="fas fa-bolt"></i> Actions Rapides
         </h2>
         <div class="quick-actions">
-            <a href="${pageContext.request.contextPath}/actesmedicaux/add" class="quick-action-card">
+            <a href="${pageContext.request.contextPath}/actesmedicaux" class="quick-action-card">
                 <div class="quick-action-icon">
                     <i class="fas fa-notes-medical"></i>
                 </div>
@@ -672,7 +672,7 @@
                 <p>Enregistrer un nouvel acte</p>
             </a>
 
-            <a href="${pageContext.request.contextPath}/servicesmedicaux/add" class="quick-action-card">
+            <a href="${pageContext.request.contextPath}/servicesmedicaux" class="quick-action-card">
                 <div class="quick-action-icon">
                     <i class="fas fa-clinic-medical"></i>
                 </div>
@@ -811,6 +811,7 @@
                                     <th>Catégorie</th>
                                     <th>Date</th>
                                     <th>Résumé</th>
+                                    <th>Lien</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -822,6 +823,11 @@
                                         <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                             ${pub.resume}
                                         </td>
+                                        <td>
+    <a href="${pub.fichier}" target="_blank">
+        Voir le fichier
+    </a>
+</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
