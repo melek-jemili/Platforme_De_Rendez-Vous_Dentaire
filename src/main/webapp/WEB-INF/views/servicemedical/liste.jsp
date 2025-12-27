@@ -423,6 +423,10 @@
                     Services Médicaux
                 </h1>
                 <div class="header-actions">
+                <a href="${pageContext.request.contextPath}/servicesmedicaux/add" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Nouveau service
+                    </a>
     <c:choose>
         <c:when test="${not empty sessionScope.dentiste}">
             <a href="${pageContext.request.contextPath}/dentiste/dashboard" class="btn btn-secondary">
@@ -568,15 +572,13 @@
         
         <!-- Bouton Supprimer - SEULEMENT si aide-soignant connecté -->
         <c:if test="${not empty sessionScope.aidesoignant}">
-            <form action="${pageContext.request.contextPath}/servicesmedicaux/delete" 
-                  method="get" style="display:inline;"
-                  onsubmit="return confirm('Voulez-vous vraiment supprimer ce service ?');">
-                <input type="hidden" name="numSM" value="${service.numSM}">
-                <button type="submit" class="btn-action btn-delete">
-                    <i class="fas fa-trash-alt"></i>
-                    Supprimer
-                </button>
-            </form>
+             <form action="${pageContext.request.contextPath}/servicesmedicaux/delete" method="get" style="display:inline;"
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce service médical ?');">
+    <input type="hidden" name="numSM" value="${service.numSM}">
+    <button type="submit" class="btn-action btn-delete">
+        <i class="fas fa-trash-alt"></i> Supprimer
+    </button>
+</form>
         </c:if>
     </div>
 </td>

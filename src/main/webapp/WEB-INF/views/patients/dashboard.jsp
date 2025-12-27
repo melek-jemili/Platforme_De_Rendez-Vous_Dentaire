@@ -660,7 +660,7 @@
             </a>
         </nav>
 
-        <a href="${pageContext.request.contextPath}/" class="logout-btn">
+        <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
             <i class="fas fa-sign-out-alt"></i>
             Déconnexion
         </a>
@@ -862,13 +862,13 @@
                                         </button>
                                     </form>
                                     <!-- Supprimer -->
-                                    <form action="${pageContext.request.contextPath}/rendezvous/delete" method="get" style="display:inline;" 
-                                          onsubmit="return confirm('Voulez-vous vraiment supprimer ce rendez-vous ?');">
-                                        <input type="hidden" name="idRv" value="${rdv.idRv}">
-                                        <button type="submit" class="btn-delete">
-                                            <i class="fas fa-trash-alt"></i> Supprimer
-                                        </button>
-                                    </form>
+                                    <form action="${pageContext.request.contextPath}/rendezvous/delete" method="get" style="display:inline;"
+      onsubmit="return confirm('Voulez-vous vraiment supprimer ce rendez-vous ?');">
+    <input type="hidden" name="idRv" value="${rdv.idRv}">
+    <button type="submit" class="btn-delete">
+        <i class="fas fa-trash-alt"></i> Supprimer
+    </button>
+</form>
                                 </div>
                             </div>
                         </c:forEach>

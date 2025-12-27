@@ -572,7 +572,7 @@
             </a>
         </nav>
 
-        <a href="${pageContext.request.contextPath}/" class="logout-btn">
+        <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
             <i class="fas fa-sign-out-alt"></i>
             Déconnexion
         </a>
@@ -680,7 +680,7 @@
                 <p>Nouveau service médical</p>
             </a>
 
-            <a href="${pageContext.request.contextPath}/publications/add" class="quick-action-card">
+            <a href="${pageContext.request.contextPath}/publications" class="quick-action-card">
                 <div class="quick-action-icon">
                     <i class="fas fa-plus-circle"></i>
                 </div>

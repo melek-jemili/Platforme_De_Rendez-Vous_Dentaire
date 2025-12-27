@@ -298,6 +298,22 @@
             gap: 8px;
             text-decoration: none;
         }
+        .btn-action {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
 
         .btn-view {
             background: #667eea;
@@ -529,23 +545,19 @@
                                 </p>
 
                                 <div class="publication-footer">
-                                    <a href="${pageContext.request.contextPath}/publications/view?id=${pub.idPub}" class="btn-small btn-view">
-                                        <i class="fas fa-eye"></i>
-                                        Voir détails
-                                    </a>
                                     <c:if test="${not empty pub.fichier}">
                                         <a href="${pub.fichier}" target="_blank" class="btn-small btn-download">
                                             <i class="fas fa-download"></i>
                                             Télécharger
                                         </a>
                                     </c:if>
-                                   <form action="${pageContext.request.contextPath}/publication/delete" method="get" style="display:inline;" 
-                              onsubmit="return confirm('Voulez-vous vraiment supprimer cette publication ?');">
-                            <input type="hidden" name="idPub" value="${pub.idPub}">
-                            <button type="submit" class="btn-delete">
-                                <i class="fas fa-trash-alt"></i> Supprimer
-                            </button>
-                        </form>
+                                    <form action="${pageContext.request.contextPath}/publication/delete" method="get" style="display:inline;"
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cette publication ?');">
+    <input type="hidden" name="idPub" value="${pub.idPub}">
+    <button type="submit" class="btn-action btn-delete">
+        <i class="fas fa-trash-alt"></i> Supprimer
+    </button>
+</form>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,10 @@
 package com.project.servlets.AideSoignant;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.project.entities.*;
 
@@ -13,6 +17,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import com.project.ejb.interfaces.IRendezvousLocal;
+import com.project.ejb.interfaces.IPatientLocal;
+import com.project.ejb.interfaces.IPublicationLocal;
+import com.project.ejb.interfaces.IServiceMedicalLocal;
 
 @WebServlet("/aidesoignant/dashboard")
 public class DashboardServlet extends HttpServlet {
@@ -21,6 +28,15 @@ public class DashboardServlet extends HttpServlet {
     
     @EJB
     private IRendezvousLocal rvservice;
+    
+    @EJB
+    private IPatientLocal patientService;
+    
+    @EJB
+    private IPublicationLocal publicationService;
+    
+    @EJB
+    private IServiceMedicalLocal serviceMedicalService;
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -88,12 +104,77 @@ public class DashboardServlet extends HttpServlet {
         System.out.println("  - Nom: " + aidesoignant.getNom());
         System.out.println("  - Prénom: " + aidesoignant.getPrenom());
 
-        // Charger les rendez-vous
-        System.out.println("\nChargement des rendez-vous...");
-        List<Rendezvous> rdvs = rvservice.getAllRendezvous();
-        System.out.println("✅ " + (rdvs != null ? rdvs.size() : 0) + " rendez-vous trouvés");
+        // ========================================
+        // CHARGER TOUTES LES DONNÉES
+        // ========================================
+        
+        // 1. Charger les rendez-vous
+        System.out.println("\n--- Chargement des données ---");
+        System.out.println("Chargement des rendez-vous...");
+        List<Rendezvous> rendezvous = rvservice.getAllRendezvous();
+        if (rendezvous == null) {
+            rendezvous = new ArrayList<>();
+        }
+        System.out.println("✅ " + rendezvous.size() + " rendez-vous trouvés");
 
-        req.setAttribute("rendezvous", rdvs);
+        // 2. Extraire les patients uniques depuis les rendez-vous
+        System.out.println("\nExtraction des patients depuis les rendez-vous...");
+        Set<Patient> patientsSet = new HashSet<>();
+        for (Rendezvous rdv : rendezvous) {
+            if (rdv.getPatient() != null) {
+                patientsSet.add(rdv.getPatient());
+            }
+        }
+        List<Patient> patients = new ArrayList<>(patientsSet);
+        System.out.println("✅ " + patients.size() + " patients uniques trouvés");
+        
+        // Alternative: Si vous avez un service pour récupérer tous les patients
+        // List<Patient> patients = patientService.getAllPatients();
+        // if (patients == null) patients = new ArrayList<>();
+        
+        // 3. Charger les publications
+        System.out.println("\nChargement des publications...");
+        List<Publication> publications = null;
+        try {
+            publications = publicationService.getAllPublication();
+        } catch (Exception e) {
+            System.out.println("⚠️ Erreur lors du chargement des publications: " + e.getMessage());
+            publications = new ArrayList<>();
+        }
+        if (publications == null) {
+            publications = new ArrayList<>();
+        }
+        System.out.println("✅ " + publications.size() + " publications trouvées");
+        
+        // 4. Charger les services médicaux
+        System.out.println("\nChargement des services médicaux...");
+        List<ServiceMedical> services = null;
+        try {
+            services = serviceMedicalService.getAllServiceMedical();
+        } catch (Exception e) {
+            System.out.println("⚠️ Erreur lors du chargement des services: " + e.getMessage());
+            services = new ArrayList<>();
+        }
+        if (services == null) {
+            services = new ArrayList<>();
+        }
+        System.out.println("✅ " + services.size() + " services médicaux trouvés");
+        
+        // ========================================
+        // PASSER LES DONNÉES À LA VUE
+        // ========================================
+        
+        System.out.println("\n--- Passage des données à la JSP ---");
+        req.setAttribute("rendezvous", rendezvous);
+        req.setAttribute("patients", patients);
+        req.setAttribute("publications", publications);
+        req.setAttribute("services", services);
+        
+        System.out.println("✅ Toutes les données sont prêtes");
+        System.out.println("  - Rendez-vous: " + rendezvous.size());
+        System.out.println("  - Patients: " + patients.size());
+        System.out.println("  - Publications: " + publications.size());
+        System.out.println("  - Services: " + services.size());
         
         System.out.println("\nForward vers JSP...");
         System.out.println("========================================\n");

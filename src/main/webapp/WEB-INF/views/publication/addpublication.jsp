@@ -293,8 +293,14 @@
                         <span class="required">*</span>
                     </label>
                     <input type="text" name="titre" placeholder="Ex: Nouvelles techniques en orthodontie" required>
+                     <label>
+        <i class="fas fa-barcode"></i>
+        Référence de la publication
+        <span class="required">*</span>
+    </label>
+    <input type="text" name="idPub" placeholder="Ex: 00020" required>
                 </div>
-
+               
                 <!-- Catégorie et Date -->
                 <div class="form-row">
                     <div class="form-group">

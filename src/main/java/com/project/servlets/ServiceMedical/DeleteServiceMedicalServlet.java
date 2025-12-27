@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import com.project.ejb.interfaces.IServiceMedicalLocal;
+import com.project.entities.ServiceMedical;
 
 @WebServlet("/servicesmedicaux/delete")
 public class DeleteServiceMedicalServlet extends HttpServlet {
@@ -17,12 +18,53 @@ public class DeleteServiceMedicalServlet extends HttpServlet {
     private IServiceMedicalLocal serviceMedicalService;
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        
+        // Vérifier la session (optionnel selon vos besoins)
+        HttpSession session = req.getSession(false);
+        if (session == null) {
+            resp.sendRedirect(req.getContextPath() + "/");
+            return;
+        }
+        
+        String numSMParam = req.getParameter("numSM");
+        
+        // Vérifier que le paramètre existe
+        if (numSMParam == null || numSMParam.trim().isEmpty()) {
+            session.setAttribute("errorMessage", "ID du service médical manquant");
+            resp.sendRedirect(req.getContextPath() + "/servicesmedicaux");
+            return;
+        }
+        
+        try {
+            int numSM = Integer.parseInt(numSMParam);
+            
+            // Vérifier que le service existe
+            ServiceMedical service = serviceMedicalService.getServiceMedical(numSM);
+            
+            if (service == null) {
+                session.setAttribute("errorMessage", "Service médical introuvable");
+                resp.sendRedirect(req.getContextPath() + "/servicesmedicaux");
+                return;
+            }
+            
+            // Supprimer le service médical
+            serviceMedicalService.deleteServiceMedical(numSM);
+            session.setAttribute("successMessage", "Service médical supprimé avec succès");
+            
+        } catch (NumberFormatException e) {
+            session.setAttribute("errorMessage", "ID du service médical invalide");
+        } catch (Exception e) {
+            session.setAttribute("errorMessage", "Erreur lors de la suppression: " + e.getMessage());
+        }
+        
+        resp.sendRedirect(req.getContextPath() + "/servicesmedicaux");
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
-        int numSM = Integer.parseInt(req.getParameter("numSM"));
-        serviceMedicalService.deleteServiceMedical(numSM);
-
-        resp.sendRedirect(req.getContextPath() + "/servicesmedicaux");
+        doGet(req, resp);
     }
 }

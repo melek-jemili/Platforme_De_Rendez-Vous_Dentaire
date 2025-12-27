@@ -47,12 +47,6 @@
             font-size: 3.5rem;
             color: #667eea;
             margin-bottom: 15px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
 
         .logo-section h2 {
@@ -63,11 +57,6 @@
         .logo-section .specialty {
             font-size: 0.9rem;
             opacity: 0.7;
-            background: rgba(102, 126, 234, 0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 10px;
         }
 
         .user-info {
@@ -75,8 +64,6 @@
             text-align: center;
             background: rgba(255,255,255,0.05);
             margin: 20px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .user-avatar {
@@ -90,7 +77,6 @@
             margin: 0 auto 15px;
             font-size: 2rem;
             border: 3px solid white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             overflow: hidden;
         }
 
@@ -104,16 +90,6 @@
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 5px;
-        }
-
-        .user-role {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            background: rgba(102, 126, 234, 0.3);
-            padding: 3px 10px;
-            border-radius: 12px;
-            display: inline-block;
-            margin-bottom: 8px;
         }
 
         .user-email {
@@ -134,7 +110,6 @@
             text-decoration: none;
             transition: all 0.3s;
             border-left: 3px solid transparent;
-            position: relative;
         }
 
         .nav-item:hover {
@@ -151,16 +126,6 @@
         .nav-item.active {
             background: rgba(102, 126, 234, 0.2);
             border-left-color: #667eea;
-        }
-
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            right: 20px;
-            width: 8px;
-            height: 8px;
-            background: #667eea;
-            border-radius: 50%;
         }
 
         .logout-btn {
@@ -187,14 +152,12 @@
         .logout-btn:hover {
             background: #c0392b;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
         }
 
         /* Main Content */
         .main-content {
             margin-left: 280px;
             padding: 30px;
-            min-height: 100vh;
         }
 
         /* Header */
@@ -215,11 +178,6 @@
             color: #333;
             font-size: 2rem;
             margin-bottom: 5px;
-        }
-
-        .header-title h1 i {
-            color: #667eea;
-            margin-right: 10px;
         }
 
         .header-title p {
@@ -258,23 +216,23 @@
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            background: #2ecc71;
             color: white;
         }
 
         .btn-success:hover {
+            background: #27ae60;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
         }
 
         .btn-info {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            background: #3498db;
             color: white;
         }
 
         .btn-info:hover {
+            background: #2980b9;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
         }
 
         /* Stats Cards */
@@ -294,20 +252,6 @@
             align-items: center;
             gap: 20px;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 50%;
-            transform: translate(30%, -30%);
         }
 
         .stat-card:hover {
@@ -323,8 +267,6 @@
             align-items: center;
             justify-content: center;
             font-size: 2rem;
-            position: relative;
-            z-index: 1;
         }
 
         .stat-icon.patients {
@@ -347,35 +289,15 @@
             color: white;
         }
 
-        .stat-info {
-            flex: 1;
-            position: relative;
-            z-index: 1;
-        }
-
         .stat-info h3 {
             font-size: 2rem;
             color: #333;
             margin-bottom: 5px;
-            font-weight: 700;
         }
 
         .stat-info p {
             color: #666;
             font-size: 0.9rem;
-        }
-
-        .stat-trend {
-            font-size: 0.75rem;
-            margin-top: 5px;
-        }
-
-        .stat-trend.up {
-            color: #27ae60;
-        }
-
-        .stat-trend.down {
-            color: #e74c3c;
         }
 
         /* Section Container */
@@ -419,7 +341,7 @@
         }
 
         thead {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            background: #f8f9fa;
         }
 
         thead th {
@@ -431,11 +353,6 @@
             text-transform: uppercase;
         }
 
-        thead th i {
-            margin-right: 5px;
-            color: #667eea;
-        }
-
         tbody tr {
             border-bottom: 1px solid #f0f0f0;
             transition: all 0.3s;
@@ -443,7 +360,6 @@
 
         tbody tr:hover {
             background: #f8f9fa;
-            transform: scale(1.01);
         }
 
         tbody td {
@@ -453,26 +369,26 @@
 
         .status-badge {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
         }
 
-        .status-badge.status-Confirmé,
-        .status-badge.status-confirme {
+        .status-badge.status-confirme,
+        .status-badge.status-Confirmé {
             background: #d4edda;
             color: #155724;
         }
 
-        .status-badge.status-En-attente,
-        .status-badge.status-en-attente {
+        .status-badge.status-en-attente,
+        .status-badge.status-En-attente {
             background: #fff3cd;
             color: #856404;
         }
 
-        .status-badge.status-Annulé,
-        .status-badge.status-annule {
+        .status-badge.status-annule,
+        .status-badge.status-Annulé {
             background: #f8d7da;
             color: #721c24;
         }
@@ -492,7 +408,6 @@
 
         .empty-state p {
             font-size: 1.1rem;
-            margin-bottom: 20px;
         }
 
         /* Alerts */
@@ -547,24 +462,6 @@
             cursor: pointer;
             text-decoration: none;
             color: inherit;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quick-action-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-
-        .quick-action-card:hover::before {
-            transform: scaleX(1);
         }
 
         .quick-action-card:hover {
@@ -581,11 +478,6 @@
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
-            transition: all 0.3s;
-        }
-
-        .quick-action-card:hover .quick-action-icon {
-            transform: scale(1.1) rotate(5deg);
         }
 
         .quick-action-card:nth-child(1) .quick-action-icon {
@@ -614,6 +506,7 @@
             font-size: 0.85rem;
         }
 
+        /* Section Subtitle */
         .section-subtitle {
             color: white;
             margin-bottom: 20px;
@@ -621,20 +514,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        /* Patients Unique Table */
-        .patient-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            margin-right: 10px;
         }
 
         /* Responsive */
@@ -694,7 +573,6 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="user-role">Aide-Soignant</div>
             <div class="user-name">${sessionScope.aidesoignant.nom} ${sessionScope.aidesoignant.prenom}</div>
             <div class="user-email">${sessionScope.aidesoignant.emailP}</div>
         </div>
@@ -722,7 +600,7 @@
             </a>
         </nav>
 
-        <a href="${pageContext.request.contextPath}/" class="logout-btn">
+        <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
             <i class="fas fa-sign-out-alt"></i>
             Déconnexion
         </a>
@@ -733,17 +611,14 @@
         <!-- Header -->
         <div class="dashboard-header">
             <div class="header-title">
-                <h1>
-                    <i class="fas fa-hand-holding-medical"></i>
-                    Bienvenue, ${sessionScope.aidesoignant.nom}
-                </h1>
+                <h1>Bienvenue, ${sessionScope.aidesoignant.nom}</h1>
                 <p>
                     <i class="far fa-calendar"></i>
                     <fmt:formatDate value="<%= new java.util.Date() %>" pattern="EEEE dd MMMM yyyy" />
                 </p>
             </div>
             <div class="header-actions">
-                <a href="${pageContext.request.contextPath}/rendezvous/add" class="btn btn-success">
+                <a href="${pageContext.request.contextPath}/rendezvous/add" class="btn btn-primary">
                     <i class="fas fa-calendar-plus"></i>
                     Nouveau RDV
                 </a>
@@ -769,7 +644,7 @@
             </div>
         </c:if>
 
-<!-- Stats Cards -->
+        <!-- Stats Cards -->
         <div class="stats-grid" id="overview">
             <div class="stat-card">
                 <div class="stat-icon patients">
@@ -813,7 +688,7 @@
         </div>
 
         <!-- Quick Actions -->
-        <h2 class="section-subtitle">
+        <h2 style="color: white; margin-bottom: 20px; font-size: 1.5rem;">
             <i class="fas fa-bolt"></i> Actions Rapides
         </h2>
         <div class="quick-actions">
@@ -833,7 +708,7 @@
                 <p>Nouveau service médical</p>
             </a>
 
-            <a href="${pageContext.request.contextPath}/publications/add" class="quick-action-card">
+            <a href="${pageContext.request.contextPath}/publications" class="quick-action-card">
                 <div class="quick-action-icon">
                     <i class="fas fa-plus-circle"></i>
                 </div>
@@ -847,70 +722,38 @@
             <div class="section-header">
                 <h2 class="section-title">
                     <i class="fas fa-users"></i>
-                    Patients Récents
+                    Mes Patients
                 </h2>
-                <a href="${pageContext.request.contextPath}/patients/list" class="btn btn-primary">
-                    <i class="fas fa-list"></i>
-                    Tous les patients
-                </a>
             </div>
 
             <c:choose>
                 <c:when test="${empty rendezvous}">
                     <div class="empty-state">
-                        <i class="fas fa-user-times"></i>
+                        <i class="fas fa-user-injured"></i>
                         <p>Aucun patient enregistré</p>
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <!-- Créer un Set pour éviter les doublons -->
                     <jsp:useBean id="displayedPatientIds" class="java.util.HashSet" scope="page"/>
                     
                     <div class="table-wrapper">
                         <table>
                             <thead>
                                 <tr>
-                                    <th><i class="fas fa-user"></i> Nom & Prénom</th>
-                                    <th><i class="fas fa-envelope"></i> Email</th>
-                                    <th><i class="fas fa-shield-alt"></i> Recouvrement</th>
-                                    <th><i class="fas fa-tint"></i> Groupe Sanguin</th>
+                                    <th>Nom & Prénom</th>
+                                    <th>Email</th>
+                                    <th>Recouvrement</th>
+                                    <th>Groupe Sanguin</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach var="rdv" items="${rendezvous}">
-                                    <c:if test="${displayedPatientIds.add(rdv.patient.idP) && displayedPatientIds.size() <= 5}">
+                                    <c:if test="${displayedPatientIds.add(rdv.patient.idP)}">
                                         <tr>
-                                            <td>
-                                                <div style="display: flex; align-items: center;">
-                                                    <div class="patient-avatar">
-                                                        ${fn:substring(rdv.patient.prenomP, 0, 1)}${fn:substring(rdv.patient.nomP, 0, 1)}
-                                                    </div>
-                                                    <strong>${rdv.patient.nomP} ${rdv.patient.prenomP}</strong>
-                                                </div>
-                                            </td>
+                                            <td><strong>${rdv.patient.nomP} ${rdv.patient.prenomP}</strong></td>
                                             <td>${rdv.patient.emailP}</td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${not empty rdv.patient.recouvrementP}">
-                                                        <span style="color: #27ae60;">
-                                                            <i class="fas fa-check-circle"></i> ${rdv.patient.recouvrementP}
-                                                        </span>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <span style="color: #999;">Non renseigné</span>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${not empty rdv.patient.groupeSanguinP}">
-                                                        <strong style="color: #e74c3c;">${rdv.patient.groupeSanguinP}</strong>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <span style="color: #999;">Non renseigné</span>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
+                                            <td>${rdv.patient.recouvrementP}</td>
+                                            <td>${rdv.patient.groupeSanguinP}</td>
                                         </tr>
                                     </c:if>
                                 </c:forEach>
@@ -926,23 +769,15 @@
             <div class="section-header">
                 <h2 class="section-title">
                     <i class="fas fa-calendar-alt"></i>
-                    Rendez-vous Récents
+                    Rendez-vous
                 </h2>
-                <a href="${pageContext.request.contextPath}/rendezvous/list" class="btn btn-primary">
-                    <i class="fas fa-list"></i>
-                    Tous les rendez-vous
-                </a>
             </div>
 
             <c:choose>
                 <c:when test="${empty rendezvous}">
                     <div class="empty-state">
                         <i class="fas fa-calendar-times"></i>
-                        <p>Aucun rendez-vous programmé</p>
-                        <a href="${pageContext.request.contextPath}/rendezvous/add" class="btn btn-primary" style="margin-top: 20px;">
-                            <i class="fas fa-calendar-plus"></i>
-                            Créer un rendez-vous
-                        </a>
+                        <p>Aucun rendez-vous</p>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -950,34 +785,20 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th><i class="fas fa-calendar"></i> Date</th>
-                                    <th><i class="fas fa-clock"></i> Heure</th>
-                                    <th><i class="fas fa-user"></i> Patient</th>
-                                    <th><i class="fas fa-user-md"></i> Dentiste</th>
-                                    <th><i class="fas fa-info-circle"></i> Statut</th>
+                                    <th>Date</th>
+                                    <th>Heure</th>
+                                    <th>Patient</th>
+                                    <th>Dentiste</th>
+                                    <th>Statut</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach var="rdv" items="${rendezvous}" begin="0" end="4">
                                     <tr>
-                                        <td>
-                                            <strong>
-                                                <fmt:formatDate value="${rdv.dateRv}" pattern="dd/MM/yyyy" />
-                                            </strong>
-                                        </td>
+                                        <td><fmt:formatDate value="${rdv.dateRv}" pattern="dd/MM/yyyy" /></td>
                                         <td>${rdv.heureRv}</td>
-                                        <td>
-                                            <div style="display: flex; align-items: center;">
-                                                <div class="patient-avatar">
-                                                    ${fn:substring(rdv.patient.prenomP, 0, 1)}${fn:substring(rdv.patient.nomP, 0, 1)}
-                                                </div>
-                                                <strong>${rdv.patient.nomP} ${rdv.patient.prenomP}</strong>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <i class="fas fa-user-md" style="color: #667eea; margin-right: 5px;"></i>
-                                            Dr. ${rdv.dentiste.nomD} ${rdv.dentiste.prenomD}
-                                        </td>
+                                        <td><strong>${rdv.patient.nomP} ${rdv.patient.prenomP}</strong></td>
+                                        <td>Dr. ${rdv.dentiste.nomD} ${rdv.dentiste.prenomD}</td>
                                         <td>
                                             <span class="status-badge status-${fn:replace(rdv.statutRv, ' ', '-')}">
                                                 ${rdv.statutRv}
@@ -988,15 +809,6 @@
                             </tbody>
                         </table>
                     </div>
-                    
-                    <c:if test="${fn:length(rendezvous) > 5}">
-                        <div style="text-align: center; margin-top: 20px;">
-                            <a href="${pageContext.request.contextPath}/rendezvous/list" class="btn btn-primary">
-                                <i class="fas fa-eye"></i>
-                                Voir les ${fn:length(rendezvous) - 5} autres rendez-vous
-                            </a>
-                        </div>
-                    </c:if>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -1006,20 +818,15 @@
             <div class="section-header">
                 <h2 class="section-title">
                     <i class="fas fa-newspaper"></i>
-                    Publications Récentes
+                    Publications
                 </h2>
-             
             </div>
 
             <c:choose>
                 <c:when test="${empty publications}">
                     <div class="empty-state">
                         <i class="fas fa-newspaper"></i>
-                        <p>Aucune publication disponible</p>
-                        <a href="${pageContext.request.contextPath}/publications/add" class="btn btn-primary" style="margin-top: 20px;">
-                            <i class="fas fa-plus-circle"></i>
-                            Créer une publication
-                        </a>
+                        <p>Aucune publication</p>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -1027,46 +834,32 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th><i class="fas fa-heading"></i> Titre</th>
-                                    <th><i class="fas fa-folder"></i> Catégorie</th>
-                                    <th><i class="fas fa-calendar"></i> Date</th>
-                                    <th><i class="fas fa-align-left"></i> Résumé</th>
+                                    <th>Titre</th>
+                                    <th>Catégorie</th>
+                                    <th>Date</th>
+                                    <th>Résumé</th>
+                                    <th>Lien</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach var="pub" items="${publications}" begin="0" end="4">
                                     <tr>
-                                        <td>
-                                            <strong style="color: #667eea;">
-                                                <i class="fas fa-file-alt"></i> ${pub.titre}
-                                            </strong>
-                                        </td>
-                                        <td>
-                                            <span style="background: #f0f0f0; padding: 4px 10px; border-radius: 12px; font-size: 0.85rem;">
-                                                ${pub.categorie}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <fmt:formatDate value="${pub.dateNP}" pattern="dd/MM/yyyy" />
-                                        </td>
+                                        <td><strong>${pub.titre}</strong></td>
+                                        <td>${pub.categorie}</td>
+                                        <td><fmt:formatDate value="${pub.dateNP}" pattern="dd/MM/yyyy" /></td>
                                         <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                            ${fn:substring(pub.resume, 0, 80)}
-                                            <c:if test="${fn:length(pub.resume) > 80}">...</c:if>
+                                            ${pub.resume}
+                                        </td>
+                                        <td>
+                                            <a href="${pub.fichier}" target="_blank">
+                                                Voir le fichier
+                                            </a>
                                         </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
                     </div>
-                    
-                    <c:if test="${fn:length(publications) > 5}">
-                        <div style="text-align: center; margin-top: 20px;">
-                            <a href="${pageContext.request.contextPath}/publications" class="btn btn-primary">
-                                <i class="fas fa-eye"></i>
-                                Voir les ${fn:length(publications) - 5} autres publications
-                            </a>
-                        </div>
-                    </c:if>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -1100,18 +893,6 @@
                 setTimeout(() => alert.remove(), 500);
             });
         }, 5000);
-
-        // Add loading animation to stat cards
-        const statCards = document.querySelectorAll('.stat-card');
-        statCards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                card.style.transition = 'all 0.5s ease';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 100);
-        });
     </script>
 </body>
 </html>

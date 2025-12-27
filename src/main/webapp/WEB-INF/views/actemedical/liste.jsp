@@ -569,15 +569,13 @@
                                                     <i class="fas fa-edit"></i>
                                                     Modifier
                                                 </a>
-                                                <form action="${pageContext.request.contextPath}/actesmedicaux/delete" 
-                                                      method="post" style="display:inline;"
-                                                      onsubmit="return confirm('Voulez-vous vraiment supprimer cet acte médical ?');">
-                                                    <input type="hidden" name="numAM" value="${acte.numAM}">
-                                                    <button type="submit" class="btn-action btn-delete">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                        Supprimer
-                                                    </button>
-                                                </form>
+                                               <form action="${pageContext.request.contextPath}/actesmedicaux/delete" method="get" style="display:inline;"
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cet acte médical ?');">
+    <input type="hidden" name="idAM" value="${acte.idAM}">
+    <button type="submit" class="btn-action btn-delete">
+        <i class="fas fa-trash-alt"></i> Supprimer
+    </button>
+</form>
                                             </div>
                                         </td>
                                     </tr>
