@@ -30,15 +30,15 @@ public class LogoutServlet extends HttpServlet {
     private void handleLogout(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Récupérer la session existante (sans en créer une nouvelle)
+        
         HttpSession session = req.getSession(false);
 
         if (session != null) {
-            // Invalider la session (supprime tous les attributs)
+            
             session.invalidate();
         }
 
-        // Supprimer tous les cookies
+        
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -49,16 +49,16 @@ public class LogoutServlet extends HttpServlet {
             }
         }
 
-        // Empêcher la mise en cache de la page
+        
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");
         resp.setDateHeader("Expires", 0);
 
-        // Ajouter un message de succès
+       
         HttpSession newSession = req.getSession(true);
         newSession.setAttribute("successMessage", "Vous avez été déconnecté avec succès");
 
-        // Rediriger vers la page d'accueil
+        
         resp.sendRedirect(req.getContextPath() + "/");
     }
 }

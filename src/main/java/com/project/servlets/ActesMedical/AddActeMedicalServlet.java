@@ -32,13 +32,13 @@ public class AddActeMedicalServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        // Récupérer tous les rendez-vous
+        
         List<Rendezvous> rendezvousList = rendezvousService.getAllRendezvous();
         
-        // Récupérer tous les services médicaux
+        
         List<ServiceMedical> servicesList = serviceMedicalService.getAllServiceMedical();
         
-        // Passer les attributs à la JSP
+        
         req.setAttribute("rendezvousList", rendezvousList);
         req.setAttribute("servicesList", servicesList);
         
@@ -52,12 +52,12 @@ public class AddActeMedicalServlet extends HttpServlet {
         try {
             ActeMedical acte = new ActeMedical();
             
-            // Récupérer le rendez-vous
+            
             int idRv = Integer.parseInt(req.getParameter("idRv"));
             Rendezvous rdv = rendezvousService.getRendezvous(idRv);
             acte.setRendezvous(rdv);
             
-            // Récupérer le service médical
+            
             int numSM = Integer.parseInt(req.getParameter("numSM"));
             ServiceMedical service = serviceMedicalService.getServiceMedical(numSM);
             acte.setServiceMedical(service);
@@ -71,12 +71,11 @@ public class AddActeMedicalServlet extends HttpServlet {
             
             acteMedicalService.addActeMedical(acte);
             
-            // Message de succès
             req.getSession().setAttribute("successMessage", "Acte médical ajouté avec succès !");
             resp.sendRedirect(req.getContextPath() + "/actesmedicaux");
             
         } catch (Exception e) {
-            // Message d'erreur
+           
             req.getSession().setAttribute("errorMessage", "Erreur lors de l'ajout de l'acte médical : " + e.getMessage());
             resp.sendRedirect(req.getContextPath() + "/actesmedicaux/add");
         }

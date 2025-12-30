@@ -34,7 +34,7 @@ public class UpdateRvServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            // Récupérer l'id du rendez-vous
+           
             String idRvStr = req.getParameter("idRv");
             if (idRvStr == null || idRvStr.trim().isEmpty()) {
                 resp.sendRedirect(req.getContextPath() + "/patients/dashboard");
@@ -49,12 +49,12 @@ public class UpdateRvServlet extends HttpServlet {
                 return;
             }
 
-            // Récupérer la liste des dentistes
+            
             List<Dentiste> dentistes = dentisteService.getAllDentistes();
             req.setAttribute("dentistes", dentistes);
             req.setAttribute("rdv", rv);
 
-            // Forward vers editRv.jsp
+            
             req.getRequestDispatcher("/WEB-INF/views/rendezvous/editrv.jsp")
                 .forward(req, resp);
 
@@ -69,7 +69,7 @@ public class UpdateRvServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            // Récupérer et valider l'id
+            
             String idRvStr = req.getParameter("idRv");
             if (idRvStr == null || idRvStr.trim().isEmpty()) {
                 req.setAttribute("error", "ID du rendez-vous manquant.");
@@ -85,23 +85,23 @@ public class UpdateRvServlet extends HttpServlet {
                 return;
             }
 
-            // Mettre à jour les champs
+            
             rv.setDateRv(Date.valueOf(req.getParameter("dateRv")));
             rv.setHeureRv(Time.valueOf(req.getParameter("heureRv")));
             rv.setStatutRv(req.getParameter("statutRv"));
             rv.setDetailsRv(req.getParameter("detailsRv"));
 
-            // Gestion du dentiste
+            
             String idDStr = req.getParameter("idD");
             if (idDStr != null && !idDStr.isEmpty()) {
                 int idD = Integer.parseInt(idDStr);
                 rv.setDentiste(dentisteService.getDentiste(idD));
             }
 
-            // Enregistrer la mise à jour
+           
             rvService.updateRendezvous(rv);
 
-            // Redirection vers la liste
+           
             resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
 
         } catch (Exception e) {

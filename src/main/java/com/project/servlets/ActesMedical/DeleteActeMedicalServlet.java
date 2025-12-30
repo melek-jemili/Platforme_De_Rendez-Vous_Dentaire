@@ -21,7 +21,7 @@ public class DeleteActeMedicalServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         
-        // Vérifier la session (optionnel selon vos besoins)
+        
         HttpSession session = req.getSession(false);
         if (session == null) {
             resp.sendRedirect(req.getContextPath() + "/");
@@ -30,7 +30,7 @@ public class DeleteActeMedicalServlet extends HttpServlet {
         
         String idAMParam = req.getParameter("idAM");
         
-        // Vérifier que le paramètre existe
+        
         if (idAMParam == null || idAMParam.trim().isEmpty()) {
             session.setAttribute("errorMessage", "ID de l'acte médical manquant");
             resp.sendRedirect(req.getContextPath() + "/actesmedicaux");
@@ -40,7 +40,7 @@ public class DeleteActeMedicalServlet extends HttpServlet {
         try {
             int idAM = Integer.parseInt(idAMParam);
             
-            // Vérifier que l'acte médical existe
+            
             ActeMedical acteMedical = acteMedicalService.getActeMedical(idAM);
             
             if (acteMedical == null) {
@@ -49,7 +49,7 @@ public class DeleteActeMedicalServlet extends HttpServlet {
                 return;
             }
             
-            // Supprimer l'acte médical
+            
             acteMedicalService.deleteActeMedical(idAM);
             session.setAttribute("successMessage", "Acte médical supprimé avec succès");
             

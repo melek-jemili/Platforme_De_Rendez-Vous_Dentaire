@@ -44,8 +44,7 @@ public class UpdateActeMedicalServlet extends HttpServlet {
             throws ServletException, IOException {
         int numAM = Integer.parseInt(req.getParameter("idAM"));
         ActeMedical acte = acteMedicalService.getActeMedical(numAM);
-        
-        // Mise à jour du service médical
+       
         int numSM = Integer.parseInt(req.getParameter("numSM"));
         ServiceMedical service = serviceMedicalService.getServiceMedical(numSM);
         acte.setServiceMedical(service);

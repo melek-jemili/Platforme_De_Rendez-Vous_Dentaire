@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
             if ("patient".equals(userType)) {
                 Patient patient = patientService.authenticate(email, password);
                 if (patient != null) {
-                    session.setAttribute("patient", patient); // ← CHANGÉ ICI
+                    session.setAttribute("patient", patient);
                     session.setAttribute("userType", "patient");
                     resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
                 } else {
@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             } else if ("dentiste".equals(userType)) {
                 Dentiste dentiste = dentisteService.authenticate(email, password);
                 if (dentiste != null) {
-                    session.setAttribute("dentiste", dentiste); // ← CHANGÉ ICI
+                    session.setAttribute("dentiste", dentiste);
                     session.setAttribute("userType", "dentiste");
                     resp.sendRedirect(req.getContextPath() + "/dentiste/dashboard");
                 } else {
@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
             } else if ("aidesoignant".equals(userType)) {
                 AideSoignant as = aideSoignantService.authenticate(email, password);
                 if (as != null) {
-                    session.setAttribute("aidesoignant", as); // ← CHANGÉ ICI
+                    session.setAttribute("aidesoignant", as); 
                     session.setAttribute("userType", "aidesoignant");
                     resp.sendRedirect(req.getContextPath() + "/aidesoignant/dashboard");
                 } else {

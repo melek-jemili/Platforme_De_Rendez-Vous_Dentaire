@@ -21,7 +21,7 @@ public class DeleteServiceMedicalServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         
-        // Vérifier la session (optionnel selon vos besoins)
+        
         HttpSession session = req.getSession(false);
         if (session == null) {
             resp.sendRedirect(req.getContextPath() + "/");
@@ -30,7 +30,7 @@ public class DeleteServiceMedicalServlet extends HttpServlet {
         
         String numSMParam = req.getParameter("numSM");
         
-        // Vérifier que le paramètre existe
+      
         if (numSMParam == null || numSMParam.trim().isEmpty()) {
             session.setAttribute("errorMessage", "ID du service médical manquant");
             resp.sendRedirect(req.getContextPath() + "/servicesmedicaux");
@@ -40,7 +40,7 @@ public class DeleteServiceMedicalServlet extends HttpServlet {
         try {
             int numSM = Integer.parseInt(numSMParam);
             
-            // Vérifier que le service existe
+            
             ServiceMedical service = serviceMedicalService.getServiceMedical(numSM);
             
             if (service == null) {
@@ -49,7 +49,7 @@ public class DeleteServiceMedicalServlet extends HttpServlet {
                 return;
             }
             
-            // Supprimer le service médical
+           
             serviceMedicalService.deleteServiceMedical(numSM);
             session.setAttribute("successMessage", "Service médical supprimé avec succès");
             

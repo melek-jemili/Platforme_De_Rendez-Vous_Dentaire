@@ -29,10 +29,7 @@ public class UpdateAideSoignantServlet extends HttpServlet {
     
     @EJB
     private IAideSoignantLocal aideSoignantService;
-    
-    /**
-     * Afficher le formulaire de modification
-     */
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -51,9 +48,7 @@ public class UpdateAideSoignantServlet extends HttpServlet {
            .forward(req, resp);
     }
     
-    /**
-     * Traiter la mise à jour de l'aide-soignant
-     */
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -69,26 +64,26 @@ public class UpdateAideSoignantServlet extends HttpServlet {
         AideSoignant as = (AideSoignant) session.getAttribute("aidesoignant");
         
         if (as == null) {
-            //HttpSession session = req.getSession();
+     
             session.setAttribute("errorMessage", "Aide-soignant introuvable.");
             resp.sendRedirect(req.getContextPath() + "/aidesoignant/dashboard");
             return;
         }
         
         try {
-            // Mise à jour des champs texte
+            
             String nom = req.getParameter("nom");
             if (nom != null && !nom.trim().isEmpty()) {
                 as.setNom(nom.trim());
             }
             
-            //String prenom = req.getParameter("prénom");
+            
             String prenomSansAccent = req.getParameter("prenom");
             if (prenomSansAccent != null && !prenomSansAccent.trim().isEmpty()) {
                 as.setPrenom(prenomSansAccent.trim());
             }
             
-            // Mise à jour du téléphone
+            
             String telephoneStr = req.getParameter("telephone");
             if (telephoneStr != null && !telephoneStr.trim().isEmpty()) {
                 try {
@@ -100,28 +95,26 @@ public class UpdateAideSoignantServlet extends HttpServlet {
                 }
             }
             
-            // Mise à jour de l'adresse
+            
             String adresse = req.getParameter("adresse");
             if (adresse != null && !adresse.trim().isEmpty()) {
                 as.setAdresse(adresse.trim());
             }
             
-            // Mise à jour de l'email
+            
             String email = req.getParameter("emailP");
             if (email != null && !email.trim().isEmpty()) {
                 as.setEmailP(email.trim());
             }
             
-            // Mise à jour du mot de passe (optionnel)
+           
             String mdp = req.getParameter("mdpP");
             if (mdp != null && !mdp.trim().isEmpty()) {
-                // TODO: Hacher le mot de passe avec BCrypt
-                // String hashedPassword = BCrypt.hashpw(mdp, BCrypt.gensalt());
-                // as.setMdpP(hashedPassword);
-                as.setMdpP(mdp); // Temporaire - à hacher en production
+                
+                as.setMdpP(mdp); 
             }
             
-            // Mise à jour de la date de naissance
+            
             String dateNPStr = req.getParameter("dateNP");
             if (dateNPStr != null && !dateNPStr.trim().isEmpty()) {
                 try {
@@ -134,16 +127,16 @@ public class UpdateAideSoignantServlet extends HttpServlet {
                 }
             }
             
-            // Mise à jour du diplôme
+            
             String diplome = req.getParameter("diplome");
             if (diplome != null && !diplome.trim().isEmpty()) {
                 as.setDiplome(diplome.trim());
             }
             
-            // Mise à jour de la photo (optionnel)
+            
             Part filePart = req.getPart("photoP");
             if (filePart != null && filePart.getSize() > 0) {
-                // Nom unique pour éviter conflit
+                
                 String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
                 String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
                 new File(uploadPath).mkdirs();
@@ -152,26 +145,25 @@ public class UpdateAideSoignantServlet extends HttpServlet {
             }
 
 
-            // Mise à jour du sexe
+            
             String sexe = req.getParameter("sexeP");
             if (sexe != null && !sexe.trim().isEmpty()) {
                 as.setSexeP(sexe.trim());
             }
             
-            // Enregistrer les modifications dans la base de données
+            
             aideSoignantService.updateAideSoignant(as);
             
-            // Message de succès
-            //HttpSession session = req.getSession();
+          
             session.setAttribute("successMessage", "Aide-soignant mis à jour avec succès !");
             session.setAttribute("aidesoignant",as);
 
-            // Redirection vers la liste
+           
             resp.sendRedirect(req.getContextPath() + "/aidesoignants/profile");
             
         } catch (Exception e) {
             e.printStackTrace();
-            //HttpSession session = req.getSession();
+            
             session.setAttribute("errorMessage", "Erreur lors de la mise à jour : " + e.getMessage());
             resp.sendRedirect(req.getContextPath() + "/aidesoignant/dashboard");
         }

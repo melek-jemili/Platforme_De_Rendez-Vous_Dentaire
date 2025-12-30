@@ -24,7 +24,7 @@ public class DeleteRvServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         
-        // Vérifier la session
+      
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("patient") == null) {
             resp.sendRedirect(req.getContextPath() + "/");
@@ -34,7 +34,7 @@ public class DeleteRvServlet extends HttpServlet {
         Patient patient = (Patient) session.getAttribute("patient");
         String idRvParam = req.getParameter("idRv");
         
-        // Vérifier que le paramètre idRv existe
+       
         if (idRvParam == null || idRvParam.trim().isEmpty()) {
             session.setAttribute("errorMessage", "ID du rendez-vous manquant");
             resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
@@ -45,21 +45,21 @@ public class DeleteRvServlet extends HttpServlet {
             int idRv = Integer.parseInt(idRvParam);
             Rendezvous rv = rvService.getRendezvous(idRv);
             
-            // Vérifier que le rendez-vous existe
+            
             if (rv == null) {
                 session.setAttribute("errorMessage", "Rendez-vous introuvable");
                 resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
                 return;
             }
             
-            // Vérifier que le rendez-vous appartient au patient connecté
+           
             if (rv.getPatient().getIdP() != patient.getIdP()) {
                 session.setAttribute("errorMessage", "Vous n'êtes pas autorisé à supprimer ce rendez-vous");
                 resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
                 return;
             }
             
-            // Supprimer le rendez-vous
+            
             rvService.deleteRendezvous(idRv);
             session.setAttribute("successMessage", "Rendez-vous supprimé avec succès");
             

@@ -18,9 +18,9 @@ import jakarta.servlet.http.Part;
 
 @WebServlet("/dentiste/update")
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024,   // 1 MB
-    maxFileSize = 5 * 1024 * 1024,     // 5 MB
-    maxRequestSize = 10 * 1024 * 1024  // 10 MB
+    fileSizeThreshold = 1024 * 1024,   
+    maxFileSize = 5 * 1024 * 1024,     
+    maxRequestSize = 10 * 1024 * 1024 
 )
 public class UpdateDentisteServlet extends HttpServlet {
     
@@ -28,10 +28,7 @@ public class UpdateDentisteServlet extends HttpServlet {
     
     @EJB
     private IDentisteLocal dentisteService;
-    
-    /**
-     * Afficher le formulaire de modification
-     */
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -50,7 +47,7 @@ public class UpdateDentisteServlet extends HttpServlet {
             return;
         }
         
-        // Recharger les données depuis la base pour avoir les infos à jour
+        
         Dentiste dentisteFromDB = dentisteService.getDentiste(dentiste.getIdD());
         
         if (dentisteFromDB == null) {
@@ -64,9 +61,7 @@ public class UpdateDentisteServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/views/dentistes/edit.jsp").forward(req, resp);
     }
     
-    /**
-     * Traiter la mise à jour du dentiste
-     */
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -86,7 +81,7 @@ public class UpdateDentisteServlet extends HttpServlet {
         }
         
         try {
-            // Récupérer le dentiste depuis la base
+            
             Dentiste d = dentisteService.getDentiste(dentiste.getIdD());
             
             if (d == null) {
@@ -95,7 +90,7 @@ public class UpdateDentisteServlet extends HttpServlet {
                 return;
             }
             
-            // Mise à jour des champs texte
+            
             String nom = req.getParameter("nomD");
             if (nom != null && !nom.trim().isEmpty()) {
                 d.setNomD(nom.trim());
@@ -126,14 +121,14 @@ public class UpdateDentisteServlet extends HttpServlet {
                 d.setSpecialiteD(specialite.trim());
             }
             
-            // Mise à jour du mot de passe (optionnel)
+           
             String mdp = req.getParameter("mdpD");
             if (mdp != null && !mdp.trim().isEmpty()) {
-                // TODO: Hacher le mot de passe avec BCrypt en production
+                
                 d.setMdpD(mdp);
             }
             
-            // Gestion de la photo
+            
             Part filePart = req.getPart("photoD");
             if (filePart != null && filePart.getSize() > 0) {
                 String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
@@ -143,10 +138,10 @@ public class UpdateDentisteServlet extends HttpServlet {
                 d.setPhotoD("uploads/" + fileName);
             }
             
-            // Sauvegarder les modifications
+            
             dentisteService.updateDentiste(d);
             
-            // Mettre à jour la session
+           
             session.setAttribute("dentiste", d);
             session.setAttribute("successMessage", "Profil mis à jour avec succès !");
             

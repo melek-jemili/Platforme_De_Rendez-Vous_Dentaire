@@ -32,7 +32,7 @@ public class AddRvServlet extends HttpServlet {
     @EJB
     private IDentisteLocal dentisteService;
 
-    // ===================== GET : afficher le formulaire =====================
+   
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -44,7 +44,7 @@ public class AddRvServlet extends HttpServlet {
            .forward(req, resp);
     }
 
-    // ===================== POST : créer le rendez-vous =====================
+   
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -52,15 +52,15 @@ public class AddRvServlet extends HttpServlet {
         try {
             HttpSession session = req.getSession(false);
 
-            // Sécurité : patient connecté obligatoire
-            if (session == null || session.getAttribute("patient") == null) { // ← CHANGÉ ICI
+            
+            if (session == null || session.getAttribute("patient") == null) { 
                 resp.sendRedirect(req.getContextPath() + "/");
                 return;
             }
 
-            Patient patient = (Patient) session.getAttribute("patient"); // ← CHANGÉ ICI
+            Patient patient = (Patient) session.getAttribute("patient"); 
 
-            // Récupération des champs
+           
             String idDStr = req.getParameter("idD");
             String dateRvStr = req.getParameter("dateRv");
             String heureRvStr = req.getParameter("heureRv");
@@ -72,7 +72,7 @@ public class AddRvServlet extends HttpServlet {
             System.out.println(">>> Heure: " + heureRvStr);
             System.out.println(">>> Dentiste ID: " + idDStr);
 
-            // Validation
+          
             if (idDStr == null || idDStr.isEmpty()
                 || dateRvStr == null || dateRvStr.isEmpty()
                 || heureRvStr == null || heureRvStr.isEmpty()) {
@@ -91,17 +91,15 @@ public class AddRvServlet extends HttpServlet {
                 return;
             }
 
-            // Création du rendez-vous
-         // Création du rendez-vous
+
             Rendezvous rv = new Rendezvous();
             rv.setPatient(patient);
             rv.setDentiste(dentiste);
 
-            // Convertir en java.util.Date
             java.sql.Date sqlDate = java.sql.Date.valueOf(dateRvStr);
             rv.setDateRv(new java.util.Date(sqlDate.getTime()));
 
-            // Heure
+          
             if (heureRvStr.split(":").length == 2) {
                 heureRvStr += ":00";
             }
@@ -114,12 +112,10 @@ public class AddRvServlet extends HttpServlet {
 
             rv.setDetailsRv(detailsRv != null ? detailsRv : "");
 
-            // Enregistrement
+            
             rvService.addRendezvous(rv);
 
-            System.out.println(">>> Rendez-vous créé avec succès !");
 
-            // Succès
             resp.sendRedirect(req.getContextPath() + "/patient/dashboard");
 
         } catch (Exception e) {

@@ -108,16 +108,16 @@ if (formPatient) {
 const formAideSoignant = document.getElementById('form-aidesoignant');
 if (formAideSoignant) {
     formAideSoignant.addEventListener('submit', function(e) {
-        const password = document.getElementById('mdpAS').value;
-        const confirmPassword = document.getElementById('mdpAS-confirm').value;
-        const nom = document.getElementById('nomAS').value.trim();
-        const prenom = document.getElementById('prenomAS').value.trim();
-        const email = document.getElementById('emailAS').value.trim();
-        const telephone = document.getElementById('telephoneAS').value.trim();
-        const dateN = document.getElementById('dateNAS').value;
-        const sexe = document.getElementById('sexeAS').value;
-        const diplome = document.getElementById('diplomeAS').value.trim();
-        const adresse = document.getElementById('adresseAS').value.trim();
+        const password = document.getElementById('mdpP').value;
+        const confirmPassword = document.getElementById('mdpP-confirm').value;
+        const nom = document.getElementById('nom').value.trim();
+        const prenom = document.getElementById('prénom').value.trim();
+        const email = document.getElementById('emailP').value.trim();
+        const telephone = document.getElementById('telephone').value.trim();
+        const dateN = document.getElementById('dateNP').value;
+        const sexe = document.getElementById('sexeP').value;
+        const diplome = document.getElementById('diplome').value.trim();
+        const adresse = document.getElementById('adresse').value.trim();
         
 
         if (!nom || !prenom || !email || !telephone || !dateN || !sexe || !diplome || !adresse) {

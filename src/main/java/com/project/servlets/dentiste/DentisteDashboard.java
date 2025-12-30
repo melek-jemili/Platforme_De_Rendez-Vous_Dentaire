@@ -57,19 +57,19 @@ public class DentisteDashboard extends HttpServlet {
         }
 
         try {
-            // Récupérer tous les patients
+            
             List<Patient> patients = patientService.getAllPatients();
 
-            // Récupérer les rendez-vous du dentiste
+           
             List<Rendezvous> rendezvous = rendezvousService.getRendezvousByDentiste(dentiste.getIdD());
 
-            // Récupérer toutes les publications
+            
             List<Publication> publications = publicationService.getAllPublication();
 
-            // Récupérer tous les services médicaux
+           
             List<ServiceMedical> services = serviceMedicalService.getAllServiceMedical();
 
-            // Passer les données au JSP
+            
             req.setAttribute("patients", patients);
             req.setAttribute("rendezvous", rendezvous);
             req.setAttribute("publications", publications);
